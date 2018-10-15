@@ -10,5 +10,15 @@
     width: 20px;
     height: 20px;
     border-radius: 10px;
+    animation: fadeIn 0.4s;
+    text-align: center;
+    font-size: 80%;
+}
+
+.Point--source{
     background-color: #20948b;
+}
+
+.Point--microphone{
+    background-color: #B9C4C9;
 }

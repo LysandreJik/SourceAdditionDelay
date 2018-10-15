@@ -1,7 +1,23 @@
+button{
+    font-family: Uni;
+    font-size: 120%;
+}
+
 .App{
 	padding: 5px;
 	background-color: #004d47;
 	width: calc(100% - 10px);
 	height: calc(100% - 10px);
 	position: absolute;
+    overflow: hidden;
+}
+
+@font-face {
+    font-family: "Uni";
+    src: url("./theme/fonts/Uni Sans Thin.otf");
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

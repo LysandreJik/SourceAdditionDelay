@@ -6,7 +6,8 @@
     "electron": "^3.0.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.5"
+    "react-scripts": "2.0.5",
+    "svg.js": "^2.6.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -14,7 +15,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "start-electron": "react-scripts start && electron ."
+    "start-electron": "electron . && react-scripts start"
   },
   "main": "electron-starter.js",
   "eslintConfig": {

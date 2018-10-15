@@ -3,10 +3,31 @@ import Point from "../model/Point";
 export default class PointsController{
     constructor(){
         this._points = [];
+        this._pointAdditionMethod = "microphone";
     }
 
-    addPoint(x, y){
-        this._points.push(new Point(x, y));
+    getMethod(){
+        return this._pointAdditionMethod;
+    }
+
+    setSources(){
+        this._pointAdditionMethod = "source"
+    }
+
+    setMicrophones(){
+        this._pointAdditionMethod = "microphone";
+    }
+
+    addPoint(x, y, type){
+        this._points.push(new Point(x, y, type));
+    }
+
+    getMicrophones(){
+        return this._points.filter((point) => point.getType() === "microphone")
+    }
+
+    getSource(){
+        return this._points.filter((point) => point.getType() === "source")
     }
 
     removePoint(index){

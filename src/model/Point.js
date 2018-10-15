@@ -1,8 +1,13 @@
 
 export default class Point{
-    constructor(x, y){
+    constructor(x, y, type){
         this._x = x;
         this._y = y;
+        this._type = type;
+    }
+
+    getType(){
+        return this._type;
     }
 
     getX(){
@@ -20,5 +25,7 @@ export default class Point{
     setY(y){
         this._y = y;
     }
+
+
 
 }
