@@ -1,0 +1,16 @@
+.Footer{
+    position: relative;
+    width: 100%;
+    height: 50px;
+}
+
+.Footer__button{
+    position: relative;
+    width: 50%;
+    background-color: green;
+    border: none;
+}
+
+.Footer__button--selected{
+    background-color: red
+}

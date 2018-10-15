@@ -1,0 +1,14 @@
+.Canvas{
+    background-color: #128277;
+    position: relative;
+    width: 100%;
+    height: calc(100% - 50px);
+}
+
+.Point{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #20948b;
+}
