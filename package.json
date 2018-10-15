@@ -12,8 +12,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "start-electron": "react-scripts start && electron ."
   },
+  "main": "electron-starter.js",
   "eslintConfig": {
     "extends": "react-app"
   },
