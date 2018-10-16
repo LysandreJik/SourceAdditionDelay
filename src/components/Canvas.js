@@ -44,7 +44,7 @@ export default class Canvas extends React.Component{
         line.mouseout(function() {
             this.stroke({color: '#32384d', width: 2})
         });
-        let text = this.draw.text(String(Math.round(Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2))))).fill('#b9c4c9').stroke({color: "#b9c4c9"}).move((x1+x2)/2, (y1+y2)/2);
+        let text = this.draw.text(String(Math.round(Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2))))+"cm").fill('#b9c4c9').stroke({color: "#b9c4c9"}).move((x1+x2)/2, (y1+y2)/2);
     }
 
     render(){

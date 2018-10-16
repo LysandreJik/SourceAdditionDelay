@@ -25,7 +25,4 @@ export default class Point{
     setY(y){
         this._y = y;
     }
-
-
-
 }

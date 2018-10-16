@@ -45,9 +45,15 @@ export default class Footer extends React.Component{
                 </button>
                 <button
                     className="Footer__button Footer__button--small"
-                    onClick={this.export}
+                    onClick={() => Template.export()}
                 >
-                    Export as JSON
+                    JSON
+                </button>
+                <button
+                    className="Footer__button Footer__button--small"
+                    onClick={() => Template.exportDelaysAndAttenuations()}
+                >
+                    DELAYS
                 </button>
             </div>
         )
