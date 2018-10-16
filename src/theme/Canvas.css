@@ -1,5 +1,5 @@
 .Canvas{
-    background-color: #128277;
+    background-color: #211f30;
     position: relative;
     width: 100%;
     height: calc(100% - 50px);
@@ -16,9 +16,9 @@
 }
 
 .Point--source{
-    background-color: #20948b;
+    background-color: #e29930;
 }
 
 .Point--microphone{
-    background-color: #B9C4C9;
+    background-color: #217ca3;
 }

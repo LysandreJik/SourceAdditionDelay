@@ -5,6 +5,10 @@ import Canvas from "./components/Canvas";
 import Footer from "./components/Footer";
 import PointsController from "./controller/PointsController"
 
+import eeee from "./template";
+
+console.log(eeee);
+
 
 export const pointsController = new PointsController();
 

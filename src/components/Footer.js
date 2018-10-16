@@ -1,6 +1,7 @@
 import React from 'react'
 import "../theme/Footer.css"
 import {pointsController} from "../App";
+import Template from "../model/Template";
 
 export default class Footer extends React.Component{
     constructor(props){
@@ -22,9 +23,14 @@ export default class Footer extends React.Component{
         pointsController.setSources();
     }
 
+    export(){
+        Template.export();
+    }
+
     render(){
         return(
             <div className="Footer">
+                <div id={"downloadAnchorElem"}/>
                 <button
                     onClick={this.setMicrophones}
                     className={"Footer__button" + (this.state.selected === "microphone" ? " Footer__button--selected" : "")}
@@ -36,6 +42,12 @@ export default class Footer extends React.Component{
                     className={"Footer__button" + (this.state.selected === "source" ? " Footer__button--selected" : "")}
                 >
                     Add source
+                </button>
+                <button
+                    className="Footer__button Footer__button--small"
+                    onClick={this.export}
+                >
+                    Export as JSON
                 </button>
             </div>
         )

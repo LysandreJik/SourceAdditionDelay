@@ -21,29 +21,33 @@ export default class Canvas extends React.Component{
         }
     }
 
-    componentDidUpdate(){
-        this.draw = SVG('drawing').size(1500, 1500);
+    componentDidMount(){
+        this.draw = SVG('drawing').size(2500, 2500);
+    }
 
+    componentDidUpdate(){
+        this.draw.clear();
         pointsController.getMicrophones().map(microphone => {
             pointsController.getSource().map(source => {
                 this.drawLine(microphone.getX(), microphone.getY(), source.getX(), source.getY());
             })
         });
-
-
-
     }
 
     drawLine(x1, y1, x2, y2){
         console.log("Drawing line", x1, x2, y1, y2)
-        let line = this.draw.line(x1, y1, x2, y2).fill('#f06').move(0, 0);
-        var rect = this.draw.rect(x1, y1)
+        let line = this.draw.polyline([x2+10, y2+10]).fill('#b9c4c9').stroke({color: "#32384d", width: 3});
+        line.animate({ ease: '>', duration: '0.5s' }).plot([[x2 + 10, y2 + 10], [x1 + 10, y1 + 10]]);
+        line.mouseover(function() {
+            this.stroke({color: '#f06', width: 5})
+        });
+        line.mouseout(function() {
+            this.stroke({color: '#32384d', width: 2})
+        });
+        let text = this.draw.text(String(Math.round(Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2))))).fill('#b9c4c9').stroke({color: "#b9c4c9"}).move((x1+x2)/2, (y1+y2)/2);
     }
 
     render(){
-
-
-
         return(
             <div className="Canvas" onClick={this.addPoint}>
                 {this.state.points.map((point, index) => {
