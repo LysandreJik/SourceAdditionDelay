@@ -7,7 +7,7 @@ export default class Canvas extends React.Component{
     constructor(props){
         super(props);
 
-        this.state = {points: []};
+        this.state = {points: [], mouseLocation: {x: 0, y: 0}};
 
         this.addPoint = this.addPoint.bind(this);
         this.drawLine = this.drawLine.bind(this);
@@ -19,6 +19,10 @@ export default class Canvas extends React.Component{
             pointsController.addPoint(event.clientX - 15, event.clientY - 15, pointsController.getMethod());
             this.setState({points: pointsController.getPoints()});
         }
+    }
+
+    _onMouseMove(e){
+        this.setState({mouseLocation: {x: e.screenX, y: e.screenY}});
     }
 
     componentDidMount(){
@@ -35,7 +39,7 @@ export default class Canvas extends React.Component{
     }
 
     drawLine(x1, y1, x2, y2){
-        console.log("Drawing line", x1, x2, y1, y2)
+        console.log("Drawing line", x1, x2, y1, y2);
         let line = this.draw.polyline([x2+10, y2+10]).fill('#b9c4c9').stroke({color: "#32384d", width: 3});
         line.animate({ ease: '>', duration: '0.5s' }).plot([[x2 + 10, y2 + 10], [x1 + 10, y1 + 10]]);
         line.mouseover(function() {
@@ -49,7 +53,7 @@ export default class Canvas extends React.Component{
 
     render(){
         return(
-            <div className="Canvas" onClick={this.addPoint}>
+            <div className="Canvas blueprint" onMouseMove={this._onMouseMove.bind(this)} onClick={this.addPoint}>
                 {this.state.points.map((point, index) => {
                     return(
                         <div key={index} style={{left: point.getX()+"px", top: point.getY()+"px"}} className={"Point" + (point.getType() === "source" ? " Point--source" : " Point--microphone")}>
@@ -58,6 +62,7 @@ export default class Canvas extends React.Component{
                     );
                 })}
                 <div id={"drawing"}/>
+                <div className="Canvas__mousePosition">{this.state.mouseLocation.x + ", " + this.state.mouseLocation.y}</div>
             </div>
         )
     }

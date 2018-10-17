@@ -36,14 +36,17 @@ export default class Template{
         };
 
         microphones.map(microphone => {
+            let relationship = [];
             sources.map(source => {
-                ret.relationships.push({
+                relationship.push({
                     microphoneIndex: microphone.index,
                     sourceIndex: source.index,
                     delay: Template.distance(microphone, source)/sos,
                     attenuation: (Template.distance(microphone, source)/100)*0.01
                 });
-            })
+
+            });
+            ret.relationships.push(relationship);
         });
 
         Template.downloadObjectAsJson(ret, title)
