@@ -2,7 +2,7 @@
     background-color: #211f30;
     position: relative;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 100px);
 }
 
 .Point {

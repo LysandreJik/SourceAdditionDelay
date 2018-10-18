@@ -1,20 +1,24 @@
 .Footer{
     position: relative;
     width: 100%;
-    height: 50px;
     border-top: 5px solid #32384d;
+    height: 50px;
 }
 
 .Footer__button{
     position: relative;
-    width: calc(40% - 5px);
+    width: 40%;
     background-color: #b9c4c9;
     border: none;
-    height: 40px;
+    height: 45px;
     transition: all 0.5s;
-    margin: 2.5px;
     color: #211f30;
+}
 
+.Footer__button:hover{
+    background-color: #211f30;
+    transition: all 0.5s;
+    color: #b9c4c9;
 }
 
 .Footer__button--selected{
@@ -24,5 +28,5 @@
 }
 
 .Footer__button--small{
-    width: 9%;
+    width: 10%;
 }

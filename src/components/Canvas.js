@@ -1,6 +1,7 @@
 import React from 'react'
 import "../theme/Canvas.css";
 import {pointsController} from "../App";
+import {SnapToGrid} from "./Options";
 
 const SVG = require('svg.js');
 
@@ -19,7 +20,7 @@ export default class Canvas extends React.Component {
     addPoint(event) {
         if(event.target.id === "SvgjsSvg1001"){
             if (event.clientX > 30 && event.clientY > 30) {
-                pointsController.addPoint(event.clientX - 15, event.clientY - 15, pointsController.getMethod());
+                pointsController.addPoint(event.clientX - 15, event.clientY - 65, pointsController.getMethod());
                 this.setState({points: pointsController.getPoints()});
             }
         }
@@ -93,7 +94,7 @@ class MouseIndicator extends React.Component {
     }
 
     onMouseMove(e) {
-        this.setState({mouseLocation: {x: e.pageX - 15, y: e.pageY - 15}});
+        this.setState({mouseLocation: {x: e.pageX - 5, y: e.pageY - 55}});
     }
 
 
@@ -125,7 +126,7 @@ class Point extends React.Component {
     }
 
     onMouseDown(e) {
-        if(e.clientX - 30 < this.props.object.getX() && e.clientX + 30 > this.props.object.getX() && e.clientY - 30 < this.props.object.getY() && e.clientY + 30 > this.props.object.getY()){
+        if(e.clientX-15 - 30 < this.props.object.getX() && e.clientX-15 + 30 > this.props.object.getX() && e.clientY-65 - 30 < this.props.object.getY() && e.clientY-65 + 30 > this.props.object.getY()){
             this.dragging = true;
         }
     }
@@ -138,8 +139,14 @@ class Point extends React.Component {
     onMouseMove(e) {
         if (this.dragging) {
             this.props.hideLines();
-            this.props.object.setX(Math.round((e.clientX - 15)/10)*10);
-            this.props.object.setY(Math.round((e.clientY - 15)/10)*10);
+            if(SnapToGrid > 0){
+                this.props.object.setX(Math.round((e.clientX - 15)/SnapToGrid)*SnapToGrid);
+                this.props.object.setY(Math.round((e.clientY - 65)/SnapToGrid)*SnapToGrid);
+            }else{
+                this.props.object.setX(Math.round((e.clientX - 15)));
+                this.props.object.setY(Math.round((e.clientY - 65)));
+            }
+
             this.setState({update: !this.state.update});
         }
     }

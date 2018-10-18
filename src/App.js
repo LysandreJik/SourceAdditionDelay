@@ -4,11 +4,7 @@ import "./App.css";
 import Canvas from "./components/Canvas";
 import Footer from "./components/Footer";
 import PointsController from "./controller/PointsController"
-
-import eeee from "./template";
-
-console.log(eeee);
-
+import Options from "./components/Options";
 
 export const pointsController = new PointsController();
 
@@ -16,6 +12,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
+                <Options/>
 				<Canvas/>
 				<Footer/>
 			</div>
