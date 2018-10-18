@@ -13,11 +13,12 @@ button{
 }
 
 .titlebar {
-    align-items: center;
+    position: relative;
     width: 100%;
     height: 20px;
     -webkit-user-select: none;
     -webkit-app-region: drag;
+    /*left: calc(100% - 92px);*/
 }
 
 .titlebar__button {

@@ -11,6 +11,9 @@ import Expand from './icons/ionicons_expand.svg';
 import Minimize from './icons/ionicons_remove.svg';
 
 const win = window.require('electron').remote.getCurrentWindow();
+const remote = window.require('electron').remote;
+
+console.log(remote.getGlobal('shared').backend.getData().then(data => console.log("Data : ", data)));
 
 export const pointsController = new PointsController();
 

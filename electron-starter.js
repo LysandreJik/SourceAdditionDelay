@@ -24,8 +24,6 @@ function createWindow () {
   })
 }
 
-console.log(process.platform);
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -50,3 +48,54 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
+let getData = new Promise((success, failure) => {
+    const spawn = require("child_process").spawn;
+    const pythonProcess = spawn('python', ['./python/main.py', "ARG1", "ARG2", "ARG3"]);
+
+    pythonProcess.stdout.on('data', function(data){
+        success(data.toString());
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        failure(data.toString());
+    });
+});
+
+let backend = {
+    async getData(){
+        return await getData.then((data) => {return data}, (data) => {return data});
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+global.shared = {os: process.platform, backend};
