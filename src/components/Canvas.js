@@ -20,7 +20,7 @@ export default class Canvas extends React.Component {
     addPoint(event) {
         if(event.target.id === "SvgjsSvg1001"){
             if (event.clientX > 30 && event.clientY > 30) {
-                pointsController.addPoint(event.clientX - 15, event.clientY - 65, pointsController.getMethod());
+                pointsController.addPoint(event.clientX - 15, event.clientY - 85, pointsController.getMethod());
                 this.setState({points: pointsController.getPoints()});
             }
         }
@@ -94,7 +94,7 @@ class MouseIndicator extends React.Component {
     }
 
     onMouseMove(e) {
-        this.setState({mouseLocation: {x: e.pageX - 5, y: e.pageY - 55}});
+        this.setState({mouseLocation: {x: e.pageX - 5, y: e.pageY - 75}});
     }
 
 
@@ -141,10 +141,10 @@ class Point extends React.Component {
             this.props.hideLines();
             if(SnapToGrid > 0){
                 this.props.object.setX(Math.round((e.clientX - 15)/SnapToGrid)*SnapToGrid);
-                this.props.object.setY(Math.round((e.clientY - 65)/SnapToGrid)*SnapToGrid);
+                this.props.object.setY(Math.round((e.clientY - 85)/SnapToGrid)*SnapToGrid);
             }else{
                 this.props.object.setX(Math.round((e.clientX - 15)));
-                this.props.object.setY(Math.round((e.clientY - 65)));
+                this.props.object.setY(Math.round((e.clientY - 85)));
             }
 
             this.setState({update: !this.state.update});
