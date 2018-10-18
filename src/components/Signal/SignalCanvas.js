@@ -18,7 +18,6 @@ export default class SignalCanvas extends React.Component{
 
     componentDidMount(){
         new Chartist.Line('.ct-chart', {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             series: [
                 this.state.data
             ]
@@ -33,7 +32,6 @@ export default class SignalCanvas extends React.Component{
     componentDidUpdate(){
         console.log(this.state);
         new Chartist.Line('.ct-chart', {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             series: [
                 this.state.data
             ]
@@ -47,7 +45,7 @@ export default class SignalCanvas extends React.Component{
 
 
     fetchData(){
-        remote.getGlobal('shared').backend.getData().then(data => this.setState({data: JSON.parse(data)}));
+        remote.getGlobal('shared').backend.getData('get_elle').then(data => this.setState({data: JSON.parse(data)}));
     }
 
     render(){

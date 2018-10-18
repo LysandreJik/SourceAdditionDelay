@@ -50,9 +50,9 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 
-let getData = new Promise((success, failure) => {
+let getData = (arg) => new Promise((success, failure) => {
     const spawn = require("child_process").spawn;
-    const pythonProcess = spawn('python', ['./python/main.py', "ARG1", "ARG2", "ARG3"]);
+    const pythonProcess = spawn('python', ['./python/main.py', arg, "ARG2", "ARG3"]);
 
     pythonProcess.stdout.on('data', function(data){
         success(data.toString());
@@ -64,8 +64,8 @@ let getData = new Promise((success, failure) => {
 });
 
 let backend = {
-    async getData(){
-        return await getData.then((data) => {return data}, (data) => {return data});
+    async getData(arg){
+        return await getData(arg).then((data) => {return data}, (data) => {return data});
     }
 };
 
