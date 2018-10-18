@@ -7,7 +7,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 800, height: 600, frame: false})
 
   // and load the index.html of the app.
   mainWindow.loadURL('http://localhost:3000')
@@ -23,6 +23,8 @@ function createWindow () {
     mainWindow = null
   })
 }
+
+console.log(process.platform);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
