@@ -18,7 +18,7 @@ export default class Canvas extends React.Component {
     }
 
     addPoint(event) {
-        if(event.target.id === "SvgjsSvg1001"){
+        if(event.target.id.startsWith("SvgjsSvg")){
             if (event.clientX > 30 && event.clientY > 30) {
                 pointsController.addPoint(event.clientX - 15, event.clientY - 85, pointsController.getMethod());
                 this.setState({points: pointsController.getPoints()});
@@ -27,7 +27,10 @@ export default class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        this.draw = SVG('drawing').size(2500, 2500);
+        if(!this.draw)
+            this.draw = SVG('drawing').size(2500, 2500);
+
+        this.setState({points: pointsController.getPoints()});
     }
 
     componentDidUpdate() {

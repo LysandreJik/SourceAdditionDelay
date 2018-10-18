@@ -1,0 +1,7 @@
+.SignalCanvas{
+    background-color: #211f30;
+    position: relative;
+    top: 5px;
+    width: 100%;
+    height: calc(100% - 25px);
+}
