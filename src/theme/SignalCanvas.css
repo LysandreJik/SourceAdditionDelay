@@ -5,3 +5,90 @@
     width: 100%;
     height: calc(100% - 25px);
 }
+
+.SignalCanvas__div{
+    font-family: Uni;
+    color: #b9c4c9;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 150%;
+    position: relative;
+    top: 40%;
+}
+
+.SignalCanvas__img{
+    position: relative;
+    left: 10px;
+    top: 10px;
+    animation: fadeIn 0.4s;
+    transition: all 0.15s;
+    cursor: pointer;
+}
+
+.SignalCanvas__img:hover{
+    left: 15px;
+}
+
+.SignalCanvas__button{
+    position: relative;
+    width: 40%;
+    background-color: #b9c4c9;
+    border: none;
+    height: 45px;
+    transition: all 0.5s;
+    color: #211f30;
+    font-size: 100%;
+    margin: 20px 0;
+}
+
+
+.SignalCanvas__button--big{
+    width: 100%;
+}
+
+.SignalCanvas__button:hover{
+    color: #b9c4c9;
+    background-color: #211f30;
+}
+
+.SignalCanvas__divSignalChoice{
+    width: 60%;
+    position: relative;
+    left: 20%;
+    display: flex;
+    flex-direction: row;
+}
+
+.SignalCanvas__axis{
+    color: #b9c4c9;
+}
+
+.SignalCanvas__chart{
+    padding: 40px;
+    width: calc(100% - 80px);
+    height: calc(100% - 80px);
+}
+
+.SignalCanvas__chartSvg{
+    width: 100%;
+    height: 100%;
+}
+
+.line {
+    fill: none;
+    opacity: 0.9;
+    stroke-width: 1.5px;
+}
+
+.line--x {
+    stroke: steelblue;
+}
+
+.line--y {
+    stroke: red;
+}
+
+.line--z {
+    stroke: purple;
+}
