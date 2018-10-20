@@ -4,6 +4,7 @@ import * as d3 from 'd3'
 import './../../theme/chartist.min.css';
 import SignalsController from "../../controller/SignalsController";
 import Return from "../../icons/ionicons_return.svg";
+import Loading from "../Loading/Loading";
 const remote = window.require('electron').remote;
 
 export let signalsController = new SignalsController();
@@ -12,14 +13,14 @@ export default class SignalCanvas extends React.Component{
 
     constructor(props){
         super(props);
-
         this.state = {data: signalsController.getSignals(), signalChoice: false};
-
         this.fetchData = this.fetchData.bind(this);
+
+        this.fetchData(this.props.signal);
     }
 
-    fetchData(){
-        remote.getGlobal('shared').backend.getData('get_elle').then(data => {data = JSON.parse(data); signalsController.addSignal(data); this.setState({data: signalsController.getSignals()})});
+    fetchData(signal){
+        remote.getGlobal('shared').backend.getData(['signal', signal]).then(data => {console.log(data); data = JSON.parse(data); signalsController.addSignal(data); this.setState({data: signalsController.getSignals()})});
     }
 
     render(){
@@ -33,24 +34,7 @@ export default class SignalCanvas extends React.Component{
                 </div>
             )
         }else{
-            return(
-                <div className="SignalCanvas" id="SignalCanvas">
-                    <div className="SignalCanvas__div">
-                        No signals currently open
-                        <br/>
-                        <button className="SignalCanvas__button" onClick={() => this.setState({signalChoice: true})}>Open signal</button>
-                        {this.state.signalChoice ?
-                            <div className="SignalCanvas__divSignalChoice">
-                                <button className="SignalCanvas__button SignalCanvas__button--big" onClick={() => this.fetchData('get_elle')}>Get elle</button>
-                                <button className="SignalCanvas__button SignalCanvas__button--big" onClick={() => this.fetchData('get_bien')}>Get bien</button>
-                                <button className="SignalCanvas__button SignalCanvas__button--big" onClick={() => this.fetchData('custom')}>Custom</button>
-                            </div>
-                            :
-                            ""
-                        }
-                    </div>
-                </div>
-            );
+            return <Loading/>
         }
     }
 }

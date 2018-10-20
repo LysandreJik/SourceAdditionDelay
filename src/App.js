@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import Canvas from "./components/Canvas";
-import Footer from "./components/Footer";
+import {connect} from 'react-redux';
+
+import Canvas from "./components/Environment/Canvas";
+import Footer from "./components/Environment/Footer";
 import PointsController from "./controller/PointsController"
-import Options from "./components/Options";
+import Options from "./components/Environment/Options";
 import Mic from "./icons/ionicons_mic.svg";
 import Network from "./icons/ionicons_network.svg";
 
@@ -12,18 +12,19 @@ import Close from './icons/ionicons_close.svg';
 import Expand from './icons/ionicons_expand.svg';
 import Minimize from './icons/ionicons_remove.svg';
 import SwitchWindow from "./components/SwitchWindow";
-import SignalCanvas from "./components/Signal/SignalCanvas";
+import Signal from "./components/Signal/Signal";
+import Store from "./controller/store/Store";
+
+import "./App.css";
 
 const win = window.require('electron').remote.getCurrentWindow();
-
-
 export const pointsController = new PointsController();
 
 class App extends Component {
     constructor(props){
         super(props);
 
-        this.state = {currentWindow: "MicrophonesAndSources"};
+        this.state = {currentWindow: "Signals"};
 
         this.showMicrophonesAndSources = this.showMicrophonesAndSources.bind(this);
         this.showSignals = this.showSignals.bind(this);
@@ -38,6 +39,7 @@ class App extends Component {
     }
 
 	render() {
+        console.log(this.props);
 		switch(this.state.currentWindow){
             case "MicrophonesAndSources":
                 return MicrophonesAndSources({showSignals: this.showSignals});
@@ -76,9 +78,13 @@ const MicrophonesAndSources = ({showSignals}) => {
 const Signals = ({showMicrophonesAndSources}) => {
     return <div className="App">
         <TitleBar/>
-        <SignalCanvas/>
+        <Signal/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
     </div>
 }
 
-export default App;
+function mapStateToProps(state) {
+    return state.PageReducer;
+}
+
+export default connect(mapStateToProps)(App);

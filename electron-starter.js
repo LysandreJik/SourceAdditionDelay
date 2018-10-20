@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
+const fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -52,7 +53,8 @@ app.on('activate', function () {
 
 let getData = (arg) => new Promise((success, failure) => {
     const spawn = require("child_process").spawn;
-    const pythonProcess = spawn('python', ['./python/main.py', arg, "ARG2", "ARG3"]);
+    arg.unshift('./python/main.py');
+    const pythonProcess = spawn('python', arg);
 
     pythonProcess.stdout.on('data', function(data){
         success(data.toString());
@@ -63,9 +65,25 @@ let getData = (arg) => new Promise((success, failure) => {
     });
 });
 
+let listDirectory = (path) => new Promise((success, failure) => {
+    fs.readdir(path, (err, items) => {
+        if(err)
+            failure(err);
+
+        let ret = items.map(item => {console.log({item, directory: fs.lstatSync(path+"/"+item).isDirectory()}); return {item, directory: fs.lstatSync(path+"/"+item).isDirectory()}});
+        console.log(ret);
+        console.log('Success !');
+        success(JSON.stringify(ret));
+    })
+});
+
 let backend = {
     async getData(arg){
         return await getData(arg).then((data) => {return data}, (data) => {return data});
+    },
+
+    async listDirectory(path){
+        return await listDirectory(path).then(data => {return data}, data => {return data})
     }
 };
 

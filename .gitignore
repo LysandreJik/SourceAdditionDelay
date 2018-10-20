@@ -22,3 +22,10 @@ yarn-error.log*
 
 yarn.lock
 python/G_2_personnes_2_micro_0alarme.wav
+
+/.idea
+
+/.idea/misc.xml
+/.idea/source-addition-delay.iml
+/.idea/workspace.xml
+

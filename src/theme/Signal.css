@@ -1,0 +1,36 @@
+.Signal{
+    position: relative;
+    width: calc(100% - 40px);
+    margin: 5px 0;
+    height: calc(100% - 65px);
+    background-color: #211f30;
+    padding: 20px;
+    font-family: Uni;
+    overflow-y: auto;
+}
+
+.Signal__directory{
+    padding: 20px;
+    background-color: #32384d;
+    font-size: 120%;
+    width: auto;
+    margin: 10px 0;
+    color: #b9c4c9;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+.Signal__directory:hover{
+    background-color: #b9c4c9;
+    color:#32384d;
+}
+
+.Signal__directory--file{
+    background-color: #217ca3;
+    color:#b9c4c9;
+}
+
+.Signal__directory--file:hover{
+    background-color: #b9c4c9;
+    color:#217ca3;
+}

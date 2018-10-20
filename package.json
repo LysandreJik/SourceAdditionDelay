@@ -8,7 +8,11 @@
     "electron": "^3.0.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
     "react-scripts": "2.0.5",
+    "redux": "^4.0.1",
+    "redux-promise-middleware": "^5.1.1",
+    "redux-thunk": "^2.3.0",
     "svg.js": "^2.6.6"
   },
   "scripts": {
