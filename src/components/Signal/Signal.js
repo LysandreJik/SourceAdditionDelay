@@ -3,6 +3,8 @@ import Loading from "../Loading/Loading";
 import '../../theme/Signal.css';
 import Back from '../../icons/ionicons_back.svg'
 import SignalCanvas from "./SignalCanvas";
+import {showLoading, showSignalCanvas} from "../../controller/actions/PageActions";
+import store from "../../controller/store/Store";
 
 const backend = window.require('electron').remote.getGlobal('shared').backend;
 
@@ -33,29 +35,24 @@ export default class Signal extends React.Component{
                 this.setState({loading: key});
                 this.listDirectory(this.state.path+"/"+directory.item).then(() => this.setState({path: this.state.path+"/"+directory.item, loading: -1}));
             }else{
-                this.setState({currentDisplay: this.state.path+"/"+directory.item});
+                store.dispatch(showLoading(() => {store.dispatch(showSignalCanvas(this.state.path+"/"+directory.item))}));
             }
         }
     }
 
     render(){
-        if(this.state.currentDisplay === AVAILABLE_DISPLAYS.FILE_SELECTION){
-            if(!this.state.dir)
-                return <Loading/>;
-            return(
-                <div className="Signal">
-                    {this.state.dir.map((item, key) => {
-                        if(this.state.loading === key){
-                            return <div key={key} onClick={() => this.selectDirectory(item, key)} className={"Signal__directory" + (item.directory ? "" : "  Signal__directory--file")}><Loading small/></div>
-                        }
-                        return <div key={key} onClick={() => this.selectDirectory(item, key)} className={"Signal__directory" + (item.directory ? "" : "  Signal__directory--file")}>{item.item}</div>
-                    })}
-                    {this.state.path !== './python/recordings' ? <div onClick={() => this.selectDirectory("return", -1)} className="Signal__directory" style={{width: "100px"}}><img src={Back} width={20}/></div> : ""}
-                </div>
-            )
-        }else{
-            return <SignalCanvas signal={this.state.currentDisplay}/>
-        }
-
+        if(!this.state.dir)
+            return <Loading/>;
+        return(
+            <div className="Signal">
+                {this.state.dir.map((item, key) => {
+                    if(this.state.loading === key){
+                        return <div key={key} onClick={() => this.selectDirectory(item, key)} className={"Signal__directory" + (item.directory ? "" : "  Signal__directory--file")}><Loading small/></div>
+                    }
+                    return <div key={key} onClick={() => this.selectDirectory(item, key)} className={"Signal__directory" + (item.directory ? "" : "  Signal__directory--file")}>{item.item}</div>
+                })}
+                {this.state.path !== './python/recordings' ? <div onClick={() => this.selectDirectory("return", -1)} className="Signal__directory" style={{width: "100px"}}><img src={Back} width={20}/></div> : ""}
+            </div>
+        )
     }
 }

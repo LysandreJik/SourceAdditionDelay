@@ -13,40 +13,47 @@ import Expand from './icons/ionicons_expand.svg';
 import Minimize from './icons/ionicons_remove.svg';
 import SwitchWindow from "./components/SwitchWindow";
 import Signal from "./components/Signal/Signal";
-import Store from "./controller/store/Store";
+import store from "./controller/store/Store";
+import {showSignalCanvas, showEnvironmentCanvas, showSignal} from "./controller/actions/PageActions";
 
 import "./App.css";
+import {AVAILABLE_PAGES} from "./controller/reducers/PageReducer";
+import Loading from "./components/Loading/Loading";
+import SignalCanvas from "./components/Signal/SignalCanvas";
 
 const win = window.require('electron').remote.getCurrentWindow();
 export const pointsController = new PointsController();
 
 class App extends Component {
+
     constructor(props){
         super(props);
-
-        this.state = {currentWindow: "Signals"};
-
-        this.showMicrophonesAndSources = this.showMicrophonesAndSources.bind(this);
-        this.showSignals = this.showSignals.bind(this);
+        this.state = {};
+        window.addEventListener('resize', () => {this.setState({update: !this.state.update})});
     }
 
     showMicrophonesAndSources(){
-        this.setState({currentWindow: "MicrophonesAndSources"});
+        store.dispatch(showEnvironmentCanvas())
     }
 
     showSignals(){
-        this.setState({currentWindow: "Signals"});
+        console.log('Showing signals')
+        store.dispatch(showSignal())
     }
 
 	render() {
-        console.log(this.props);
-		switch(this.state.currentWindow){
-            case "MicrophonesAndSources":
-                return MicrophonesAndSources({showSignals: this.showSignals});
-            case "Signals":
-                return Signals({showMicrophonesAndSources: this.showMicrophonesAndSources});
+        console.log(this.props.page);
+		switch(this.props.page){
+            case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
+                return microphonesAndSources({showSignals: this.showSignals});
+            case AVAILABLE_PAGES.SIGNAL_CANVAS:
+                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.signal});
+            case AVAILABLE_PAGES.SIGNAL:
+                return signals({showMicrophonesAndSources: this.showMicrophonesAndSources});
+            case AVAILABLE_PAGES.LOADING:
+                return loading({showMicrophonesAndSources: this.showMicrophonesAndSources, callback: this.props.callback});
             default:
-                return MicrophonesAndSources;
+                return microphonesAndSources;
         }
 
 	}
@@ -65,7 +72,7 @@ class TitleBar extends React.Component{
     }
 }
 
-const MicrophonesAndSources = ({showSignals}) => {
+const microphonesAndSources = ({showSignals}) => {
     return <div className="App">
         <TitleBar/>
         <Options/>
@@ -75,13 +82,29 @@ const MicrophonesAndSources = ({showSignals}) => {
     </div>
 };
 
-const Signals = ({showMicrophonesAndSources}) => {
+const signals = ({showMicrophonesAndSources}) => {
     return <div className="App">
         <TitleBar/>
         <Signal/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
     </div>
-}
+};
+
+const signalCanvas = ({showMicrophonesAndSources, signal}) => {
+    return <div className="App">
+        <TitleBar/>
+        <SignalCanvas signal={signal}/>
+        <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
+    </div>
+};
+
+const loading = ({showMicrophonesAndSources, callback}) => {
+    return <div className="App">
+        <TitleBar/>
+        <Loading callback={callback}/>
+        <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
+    </div>
+};
 
 function mapStateToProps(state) {
     return state.PageReducer;

@@ -3,6 +3,12 @@ import React from 'react'
 import '../../theme/Loading.css';
 
 export default class Loading extends React.Component{
+    constructor(props){
+        super(props);
+
+        if(this.props.callback)
+            this.props.callback();
+    }
     render(){
         if(this.props.small){
             return(

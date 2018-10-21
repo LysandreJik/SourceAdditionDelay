@@ -4,6 +4,7 @@
     top: 5px;
     width: 100%;
     height: calc(100% - 25px);
+    animation: fadeIn 0.4s;
 }
 
 .SignalCanvas__div{
@@ -79,6 +80,7 @@
     fill: none;
     opacity: 0.9;
     stroke-width: 1.5px;
+    clip-path: url(#clip);
 }
 
 .line--x {
@@ -86,9 +88,52 @@
 }
 
 .line--y {
-    stroke: red;
+    stroke: #e29930;
 }
 
 .line--z {
-    stroke: purple;
+    stroke: #b9c4c9;
+}
+
+.line--fade {
+    stroke-width: 1.4px;
+    opacity: 0.5;
+}
+
+.line--hover {
+    stroke-width: 2px;
+    opacity: 1.0;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    pointer-events: none;
+
+    line-height: 1;
+    font-weight: bold;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+div.tooltip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 11px;
+    top: 95%;
+    left: 50%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.6);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+.zoom {
+    fill: none;
+    cursor: move;
+    pointer-events: all;
 }

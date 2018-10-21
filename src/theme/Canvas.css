@@ -3,6 +3,7 @@
     position: relative;
     width: 100%;
     height: calc(100% - 120px);
+    animation: fadeIn 0.4s;
 }
 
 .Point {
