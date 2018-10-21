@@ -2,6 +2,8 @@ import React from 'react'
 import "../../theme/Canvas.css";
 import {pointsController} from "../../App";
 import {SnapToGrid} from "./Options";
+import store from '../../controller/store/Store';
+import {askForT0, hideT0} from "../../controller/actions/UXActions";
 
 const SVG = require('svg.js');
 
@@ -18,16 +20,33 @@ export default class Canvas extends React.Component {
     }
 
     addPoint(event) {
-        if(event.target.id.startsWith("SvgjsSvg")){
-            if (event.clientX > 30 && event.clientY > 30) {
-                pointsController.addPoint(event.clientX - 15, event.clientY - 85, pointsController.getMethod());
-                this.setState({points: pointsController.getPoints()});
+        if (event.target.id.startsWith("SvgjsSvg")) {
+            let x = event.clientX;
+            let y = event.clientY;
+            if (x > 30 && y > 30) {
+                if(pointsController.getMethod() !== "microphone"){
+                    store.dispatch(
+                        askForT0(
+                            (T0) => {
+                                store.dispatch(hideT0());
+                                pointsController.addPoint(x - 15, y - 85, pointsController.getMethod(), T0);
+                                this.setState({points: pointsController.getPoints()});
+                            },
+                            () => {
+                                store.dispatch(hideT0())
+                            }
+                        )
+                    );
+                }else{
+                    pointsController.addPoint(x - 15, y - 85, pointsController.getMethod());
+                    this.setState({points: pointsController.getPoints()});
+                }
             }
         }
     }
 
     componentDidMount() {
-        if(!this.draw)
+        if (!this.draw)
             this.draw = SVG('drawing').size(2500, 2500);
 
         this.setState({points: pointsController.getPoints()});
@@ -36,17 +55,17 @@ export default class Canvas extends React.Component {
     componentDidUpdate() {
         this.draw.clear();
         pointsController.getMicrophones().map(microphone => {
-            pointsController.getSource().map(source => {
+            pointsController.getSources().map(source => {
                 this.drawLine(microphone.getX(), microphone.getY(), source.getX(), source.getY());
             })
         });
     }
 
-    hideLines(){
+    hideLines() {
         this.draw.clear();
     }
 
-    refreshCanvas(){
+    refreshCanvas() {
         this.setState({update: !this.state.update})
     }
 
@@ -68,7 +87,8 @@ export default class Canvas extends React.Component {
                  onMouseDown={this.mouseDown} onMouseMove={this.mouseMove}>
                 {this.state.points.map((point, index) => {
                     return (
-                        <Point index={index} key={index} object={point} hideLines={this.hideLines} refreshCanvas={this.refreshCanvas}/>
+                        <Point index={index} key={index} object={point} hideLines={this.hideLines}
+                               refreshCanvas={this.refreshCanvas}/>
                     );
                 })}
                 <div id={"drawing"}/>
@@ -92,7 +112,7 @@ class MouseIndicator extends React.Component {
         document.getElementById("Canvas").addEventListener("mousemove", this.onMouseMove);
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         document.getElementById("Canvas").removeEventListener("mousemove", this.onMouseMove);
     }
 
@@ -122,14 +142,14 @@ class Point extends React.Component {
         this.dragging = false;
     }
 
-    componentDidMount(){
+    componentDidMount() {
         document.getElementById("Canvas").addEventListener("mousemove", this.onMouseMove);
         document.getElementById("Canvas").addEventListener("mouseup", this.onMouseUp);
         document.getElementById("Canvas").addEventListener("mousedown", this.onMouseDown);
     }
 
     onMouseDown(e) {
-        if(e.clientX-15 - 30 < this.props.object.getX() && e.clientX-15 + 30 > this.props.object.getX() && e.clientY-65 - 30 < this.props.object.getY() && e.clientY-65 + 30 > this.props.object.getY()){
+        if (e.clientX - 15 - 30 < this.props.object.getX() && e.clientX - 15 + 30 > this.props.object.getX() && e.clientY - 65 - 30 < this.props.object.getY() && e.clientY - 65 + 30 > this.props.object.getY()) {
             this.dragging = true;
         }
     }
@@ -142,10 +162,10 @@ class Point extends React.Component {
     onMouseMove(e) {
         if (this.dragging) {
             this.props.hideLines();
-            if(SnapToGrid > 0){
-                this.props.object.setX(Math.round((e.clientX - 15)/SnapToGrid)*SnapToGrid);
-                this.props.object.setY(Math.round((e.clientY - 85)/SnapToGrid)*SnapToGrid);
-            }else{
+            if (SnapToGrid > 0) {
+                this.props.object.setX(Math.round((e.clientX - 15) / SnapToGrid) * SnapToGrid);
+                this.props.object.setY(Math.round((e.clientY - 85) / SnapToGrid) * SnapToGrid);
+            } else {
                 this.props.object.setX(Math.round((e.clientX - 15)));
                 this.props.object.setY(Math.round((e.clientY - 85)));
             }
@@ -154,7 +174,55 @@ class Point extends React.Component {
         }
     }
 
+    getClass() {
+        if (this.props.object.getType() === "microphone") {
+            return "Point Point--microphone" + (this.state.closed ? "" : " Point--large")
+        } else if (this.props.object.getType().path === "basic") {
+            return "Point Point--source" + (this.state.closed ? "" : " Point--large")
+        } else {
+            return "Point Point--voice" + (this.state.closed ? "" : " Point--large")
+        }
+    }
+
+    getSmallText() {
+        if (this.props.object.getType() === "microphone") {
+            return "M"
+        } else if (this.props.object.getType().path === "basic") {
+            return "S"
+        } else {
+            return "S+"
+        }
+    }
+
+    getLargeText() {
+        if (this.props.object.getType() === "microphone") {
+            return (
+                <div>
+                    <div>Microphone</div>
+                    <div className="Point--text">{this.props.object.getX() + ", " + this.props.object.getY()}</div>
+                </div>
+            );
+        } else if (this.props.object.getType().path === "basic") {
+            return (
+                <div>
+                    <div>{this.props.object.getType().name}</div>
+                    <div className="Point--text">{this.props.object.getX() + ", " + this.props.object.getY()}. T0 = {this.props.object.getT0()}s</div>
+                    <div className="Point--text">{"t = " + Math.floor(this.props.object.getType().metadata.n / this.props.object.getType().metadata.fs) + "s, f = " + this.props.object.getType().metadata.fs + "Hz"}</div>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <div>{this.props.object.getType().name}</div>
+                    <div className="Point--text">{this.props.object.getX() + ", " + this.props.object.getY()}. T0 = {this.props.object.getT0()}s</div>
+                    <div className="Point--text">{"t = " + Math.floor(this.props.object.getType().metadata.n / this.props.object.getType().metadata.fs) + "s, f = " + this.props.object.getType().metadata.fs + "Hz"}</div>
+                </div>
+            );
+        }
+    }
+
     getStyle() {
+        console.log(this.props.object);
         return (
             <div
                 onMouseDown={this.onMouseDown}
@@ -163,13 +231,13 @@ class Point extends React.Component {
                 onMouseOver={() => this.setState({closed: false})}
                 onMouseLeave={() => this.setState({closed: true})}
                 style={{left: this.props.object.getX() + "px", top: this.props.object.getY() + "px"}}
-                className={"Point" + (!this.state.closed ? " Point--large" : "") + (this.props.object.getType() === "source" ? " Point--source" : " Point--microphone")}
-                id={"Point_"+this.props.index}
+                className={this.getClass()}
+                id={"Point_" + this.props.index}
             >
                 {this.state.closed ?
-                    this.props.object.getType() === "source" ? "S" : "M"
+                    this.getSmallText()
                     :
-                    <span className="Point--text">{this.props.object.getX() + ", " + this.props.object.getY()}</span>
+                    this.getLargeText()
                 }
             </div>
         )

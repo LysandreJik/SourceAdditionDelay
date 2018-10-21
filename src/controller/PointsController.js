@@ -10,24 +10,24 @@ export default class PointsController{
         return this._pointAdditionMethod;
     }
 
-    setSources(){
-        this._pointAdditionMethod = "source"
+    setSources(type){
+        this._pointAdditionMethod = type;
     }
 
     setMicrophones(){
         this._pointAdditionMethod = "microphone";
     }
 
-    addPoint(x, y, type){
-        this._points.push(new Point(x, y, type));
+    addPoint(x, y, type, T0){
+        this._points.push(new Point(x, y, type, T0));
     }
 
     getMicrophones(){
         return this._points.filter((point) => point.getType() === "microphone")
     }
 
-    getSource(){
-        return this._points.filter((point) => point.getType() === "source")
+    getSources(){
+        return this._points.filter((point) => point.getType() !== "microphone")
     }
 
     removePoint(index){

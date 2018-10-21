@@ -6,7 +6,7 @@
     left: calc(100% - 20px);
     background-color: #b9c4c9;
     border-radius: 15px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .SwitchWindow--left{

@@ -3,18 +3,20 @@ export const AVAILABLE_PAGES = {
     ENVIRONMENT_CANVAS: "ENVIRONMENT_CANVAS",
     SIGNAL_CANVAS: "SIGNAL_CANVAS",
     SIGNAL: "SIGNAL",
-    LOADING: "LOADING"
+    LOADING: "LOADING",
 };
 
 export const AVAILABLE_TYPES = {
-    CHANGE_PAGE: "CHANGE_PAGE"
+    CHANGE_PAGE: "CHANGE_PAGE",
+    UX_ACTION: "UX_ACTION"
 };
 
 export default function PageReducer(state = {
     type: AVAILABLE_TYPES.CHANGE_PAGE,
-    page: AVAILABLE_PAGES.SIGNAL
+    page: AVAILABLE_PAGES.ENVIRONMENT_CANVAS
 }, action) {
     if (action.type === AVAILABLE_TYPES.CHANGE_PAGE) {
+        console.log(action);
         switch (action.page) {
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return action;

@@ -1,16 +1,33 @@
 
 export default class SignalsController{
     constructor(){
-        this._signals = [];
+        this._signals = [{data: []}];
         this._bank = [];
+
+        this.addSignal = this.addSignal.bind(this);
+        this.getSignal = this.getSignal.bind(this);
+        this.getSignals = this.getSignals.bind(this);
+        this.removeSignal = this.removeSignal.bind(this);
+        this.clearSignals = this.clearSignals.bind(this);
+        this.getBankSignals = this.getBankSignals.bind(this);
+        this.addSignalsToBank = this.addSignalsToBank.bind(this);
+        this.removeSignalFromBank = this.removeSignalFromBank.bind(this);
     }
 
     addSignal(signal){
-        this._signals.push(signal);
+        if(this._signals[0].data.length === 0){
+            this._signals = [signal];
+        }else{
+            this._signals.push(signal);
+        }
+
     }
 
     removeSignal(index){
         this._signals.splice(index, 1);
+        if(this._signals.length === 0){
+            this._signals = [{data: []}];
+        }
     }
 
     getSignals(){
@@ -22,15 +39,16 @@ export default class SignalsController{
     }
 
     clearSignals(){
-        this._signals = [];
+        this._signals = [{data: []}];
     }
 
     getBankSignals(){
         return this._bank;
     }
 
-    addSignalsToBank(signals){
-        this._bank.push(...signals);
+    addSignalsToBank(){
+        this._bank.push(...this.getSignals());
+        this.clearSignals();
     }
 
     removeSignalFromBank(index){

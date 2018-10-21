@@ -5,7 +5,7 @@ export default class Template{
     static export(medium = "air", title = "template"){
         this.downloadObjectAsJson({
             microphones: pointsController.getMicrophones().map(point =>  {return {x: point.getX(), y: point.getY()}}),
-            sources: pointsController.getSource().map(point => {return {x: point.getX(), y: point.getY()}}), medium}, title);
+            sources: pointsController.getSources().map(point => {return {x: point.getX(), y: point.getY()}}), medium}, title);
     }
 
     static downloadObjectAsJson(exportObj, exportName){
@@ -27,7 +27,7 @@ export default class Template{
         let sos = 34000;
 
         let microphones = pointsController.getMicrophones().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
-        let sources = pointsController.getSource().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
+        let sources = pointsController.getSources().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
 
         let ret = {
             microphones,

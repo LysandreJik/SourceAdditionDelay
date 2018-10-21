@@ -3,8 +3,8 @@ import '../../theme/SignalCanvas.css'
 import * as d3 from 'd3'
 import SignalsController from "../../controller/SignalsController";
 import Return from "../../icons/ionicons_back.svg";
-import Folder from "../../icons/ionicons_folder.svg";
-import Add from "../../icons/ionicons_add.svg";
+
+
 import Loading from "../Loading/Loading";
 import store from '../../controller/store/Store';
 import {showSignal} from "../../controller/actions/PageActions";
@@ -21,92 +21,57 @@ export default class SignalCanvas extends React.Component {
         super(props);
         this.state = {data: signalsController.getSignals(), signalChoice: false};
         this.fetchData = this.fetchData.bind(this);
-        this.toggleBank = this.toggleBank.bind(this);
         this.addSignalsToBank = this.addSignalsToBank.bind(this);
         this.removeSignalFromBank = this.removeSignalFromBank.bind(this);
-        this.fetchData(this.props.signal);
+
+        if (this.props.signal)
+            this.fetchData(this.props.signal);
     }
 
     fetchData(signal) {
         remote.getGlobal('shared').backend.getData(['signal', signal]).then(data => {
             data = JSON.parse(data);
-            signalsController.addSignal({signal, name: signal.split('/')[signal.split('/').length-1], data: data.signal, metadata: data.metadata});
+            signalsController.addSignal({
+                signal,
+                name: signal.split('/')[signal.split('/').length - 1],
+                data: data.signal,
+                metadata: data.metadata
+            });
             this.setState({data: signalsController.getSignals()})
         })
             .then(() => console.log('Fetched signal ! SignalsController signals : ', signalsController.getSignals()));
     }
 
-    toggleBank() {
-        this.setState({bank: !this.state.bank});
-    }
-
-    addSignalsToBank(){
-        console.log('Adding signals to bank ');
+    addSignalsToBank() {
         signalsController.addSignalsToBank(signalsController.getSignals());
         signalsController.getSignals().forEach(signal => console.log(signal.name));
         signalsController.clearSignals();
 
-        this.setState({data: [{data: []}]});
+        this.setState({data: signalsController.getSignals()});
     }
 
-    removeSignalFromBank(index){
+    removeSignalFromBank(index) {
         signalsController.removeSignalFromBank(index);
 
         this.setState({update: !this.state.update});
     }
 
     render() {
-        if (this.state.data.length > 0) {
+        console.log((this.state.data && this.state.data[0].data.length > 0) || signalsController.getBankSignals().length)
+        if ((this.state.data && this.state.data[0].data.length > 0) || signalsController.getBankSignals().length) {
             return (
                 <div className="SignalCanvas" id="SignalCanvas">
-                    <Bank show={this.state.bank} addSignals={this.addSignalsToBank} removeSignal={this.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
                     <img onClick={() => {
                         store.dispatch(showSignal())
                     }} className="SignalCanvas__img" src={Return} width={30} height={30}/>
-                    <Chart data={this.state.data}/>
-                    <SwitchWindow left change={this.toggleBank} icon={Folder}/>
+                    <Chart data={signalsController.getSignals()}/>
+
                 </div>
             )
         } else {
             return <Loading/>
         }
     }
-}
-
-
-class Bank extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-
-
-    render() {
-        if (!this.props.show) {
-            return <div className="SignalBank"/>
-
-        } else {
-            return(
-                <div className="SignalBank"  style={{width: "700px"}}>
-                    {this.props.signals.map((signal, key) => {
-                        return(
-                            <button key={key} className="SignalBank__button" onClick={() => this.props.removeSignal(key)}>
-                                {signal.name}
-                                <br/>
-                                {"t = " + Math.floor(signal.metadata.n/signal.metadata.fs)+"s, f = "+signal.metadata.fs+"Hz"}
-                            </button>
-                        );
-                    })}
-                    <button className="SignalBank__button SignalBank__button--return" onClick={this.props.addSignals}>
-                        <img src={Add} height={15} width={15}/>
-                    </button>
-                </div>
-            )
-
-    }
-
-
-}
 }
 
 class Chart extends React.Component {
@@ -135,8 +100,6 @@ class Chart extends React.Component {
         let width = document.getElementById("SignalCanvas__chart" + this.props.index).getBoundingClientRect().width - 120,
             height = document.getElementById("SignalCanvas__chart" + this.props.index).getBoundingClientRect().height - 120;
 
-        console.log(width, height);
-
         this.dims = ['x', 'y', 'z'].filter((item, index) => {
             if (index < this.props.data.length) {
                 return item
@@ -144,8 +107,6 @@ class Chart extends React.Component {
                 return null
             }
         });
-
-        console.log(this.dims);
 
         this.x = d3.scaleLinear().range([0, width]);
         this.x0 = d3.scaleLinear().range([0, width]);
@@ -180,7 +141,6 @@ class Chart extends React.Component {
             .attr("height", height);
 
         let data = [];
-        console.log(this.props.data);
         let max = Math.max(...this.props.data.map(curve => {
             return curve.data.length
         }));
@@ -235,14 +195,9 @@ class Chart extends React.Component {
             .attr("class", "axisSteelBlue")
             .attr("class", "SignalCanvas__axis")
             .call(d3.axisLeft(Y['x']))
-            .on("mousedown", this.mouseDown);
 
         this.zoom.scaleBy(this.rect, 2);
         this.zoom.translateBy(this.rect, width);
-    }
-
-    mouseDown() {
-        console.log("mouse down")
     }
 
     zoomed() {

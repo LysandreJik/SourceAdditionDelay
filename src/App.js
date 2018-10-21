@@ -20,7 +20,9 @@ import {showSignalCanvas, showEnvironmentCanvas, showSignal} from "./controller/
 import "./App.css";
 import {AVAILABLE_PAGES} from "./controller/reducers/PageReducer";
 import Loading from "./components/Loading/Loading";
-import SignalCanvas from "./components/Signal/SignalCanvas";
+import SignalCanvas, {signalsController} from "./components/Signal/SignalCanvas";
+import Bank from "./components/Bank";
+import {toggleBank} from "./controller/actions/UXActions";
 
 const win = window.require('electron').remote.getCurrentWindow();
 export const pointsController = new PointsController();
@@ -38,21 +40,20 @@ class App extends Component {
     }
 
     showSignals(){
-        console.log('Showing signals')
         store.dispatch(showSignal())
     }
 
 	render() {
-        console.log(this.props.page);
-		switch(this.props.page){
+        console.log('refresh', this.props.ux);
+		switch(this.props.page.page){
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return microphonesAndSources({showSignals: this.showSignals});
             case AVAILABLE_PAGES.SIGNAL_CANVAS:
-                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.signal});
+                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.page.signal});
             case AVAILABLE_PAGES.SIGNAL:
                 return signals({showMicrophonesAndSources: this.showMicrophonesAndSources});
             case AVAILABLE_PAGES.LOADING:
-                return loading({showMicrophonesAndSources: this.showMicrophonesAndSources, callback: this.props.callback});
+                return loading({showMicrophonesAndSources: this.showMicrophonesAndSources, callback: this.props.page.callback});
             default:
                 return microphonesAndSources;
         }
@@ -80,6 +81,7 @@ const microphonesAndSources = ({showSignals}) => {
         <Canvas/>
         <Footer/>
         <SwitchWindow change={showSignals} icon={Pulse}/>
+        <Bank basic removeSignal={signalsController.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
     </div>
 };
 
@@ -88,6 +90,7 @@ const signals = ({showMicrophonesAndSources}) => {
         <TitleBar/>
         <Signal/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
+        <Bank removeSignal={signalsController.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
     </div>
 };
 
@@ -96,6 +99,7 @@ const signalCanvas = ({showMicrophonesAndSources, signal}) => {
         <TitleBar/>
         <SignalCanvas signal={signal}/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
+        <Bank add removeSignal={signalsController.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
     </div>
 };
 
@@ -108,7 +112,7 @@ const loading = ({showMicrophonesAndSources, callback}) => {
 };
 
 function mapStateToProps(state) {
-    return state.PageReducer;
+    return {page: state.PageReducer, ux: state.UXReducer};
 }
 
 export default connect(mapStateToProps)(App);
