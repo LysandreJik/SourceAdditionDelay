@@ -9,10 +9,9 @@ class NumpyEncoder(json.JSONEncoder):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
 
-if sys.argv[1] == "signal_length":
-    print(json.dumps(get_signal_length(sys.argv[2]), cls=NumpyEncoder))
-elif sys.argv[1] == "signal":
-    print(json.dumps(get_file(sys.argv[2]), cls=NumpyEncoder))
+
+print(json.dumps({"signal": get_file(sys.argv[2]), "metadata": get_signal_length(sys.argv[2])}, cls=NumpyEncoder))
+
 
 
 

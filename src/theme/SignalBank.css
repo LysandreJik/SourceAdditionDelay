@@ -1,0 +1,36 @@
+.SignalBank{
+    position: relative;
+    left: -15px;
+    top: 0;
+    width: 0;
+    height: calc(100% - 5px);
+    padding: 5px;
+    transition: all 0.3s;
+}
+
+.SignalBank__button{
+    animation: delayedFadein 1s forwards;
+    position: relative;
+    left: 15px;
+    background-color: #b9c4c9;
+    border: none;
+    width: calc(100% - 20px);
+    height: 50px;
+    transition: all 0.3s;
+    margin: 3px 0;
+    font-size: 95%;
+}
+
+.SignalBank__button:hover{
+    background-color: red;
+}
+
+.SignalBank__button--return:hover{
+    background-color: #e29930;
+}
+
+@keyframes delayedFadein{
+    0% { opacity:0; }
+    66% { opacity:0; }
+    100% { opacity:1; }
+}

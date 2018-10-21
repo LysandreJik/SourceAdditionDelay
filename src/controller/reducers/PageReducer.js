@@ -12,7 +12,7 @@ export const AVAILABLE_TYPES = {
 
 export default function PageReducer(state = {
     type: AVAILABLE_TYPES.CHANGE_PAGE,
-    page: AVAILABLE_PAGES.ENVIRONMENT_CANVAS
+    page: AVAILABLE_PAGES.SIGNAL
 }, action) {
     if (action.type === AVAILABLE_TYPES.CHANGE_PAGE) {
         switch (action.page) {

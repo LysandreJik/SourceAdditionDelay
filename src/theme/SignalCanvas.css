@@ -5,6 +5,8 @@
     width: 100%;
     height: calc(100% - 25px);
     animation: fadeIn 0.4s;
+    display: flex;
+    flex-direction: row;
 }
 
 .SignalCanvas__div{
@@ -73,13 +75,15 @@
 
 .SignalCanvas__chartSvg{
     width: 100%;
-    height: 100%;
+    height: calc(100% - 40px);
+    padding-right: 80px;
+    padding-bottom: 40px;
 }
 
 .line {
     fill: none;
     opacity: 0.9;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
     clip-path: url(#clip);
 }
 

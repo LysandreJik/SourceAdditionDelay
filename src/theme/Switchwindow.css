@@ -1,5 +1,5 @@
 .SwitchWindow{
-    position: absolute;
+    position: fixed;
     width: 60px;
     height: 80px;
     top: calc(50% - 40px);
@@ -9,11 +9,26 @@
     transition: all 0.2s ease;
 }
 
+.SwitchWindow--left{
+    left: -40px;
+}
+
 .SwitchWindow:hover{
     left: calc(100% - 40px);
 }
 
+.SwitchWindow--left:hover{
+    left: -20px;
+}
+
 .SwitchWindow__icon{
     position: relative;
-    top: calc(50% - 10px)
+    top: calc(50% - 10px);
+    left: 3px;
+}
+
+.SwitchWindow--left .SwitchWindow__icon{
+    position: relative;
+    top: calc(50% - 10px);
+    left: 43px;
 }

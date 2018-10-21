@@ -2,6 +2,7 @@
 export default class SignalsController{
     constructor(){
         this._signals = [];
+        this._bank = [];
     }
 
     addSignal(signal){
@@ -18,5 +19,21 @@ export default class SignalsController{
 
     getSignal(index){
         return this._signals[index];
+    }
+
+    clearSignals(){
+        this._signals = [];
+    }
+
+    getBankSignals(){
+        return this._bank;
+    }
+
+    addSignalsToBank(signals){
+        this._bank.push(...signals);
+    }
+
+    removeSignalFromBank(index){
+        this._bank.splice(index,  1)
     }
 }

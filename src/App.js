@@ -7,6 +7,7 @@ import PointsController from "./controller/PointsController"
 import Options from "./components/Environment/Options";
 import Mic from "./icons/ionicons_mic.svg";
 import Network from "./icons/ionicons_network.svg";
+import Pulse from "./icons/ionicons_pulse.svg";
 
 import Close from './icons/ionicons_close.svg';
 import Expand from './icons/ionicons_expand.svg';
@@ -78,7 +79,7 @@ const microphonesAndSources = ({showSignals}) => {
         <Options/>
         <Canvas/>
         <Footer/>
-        <SwitchWindow change={showSignals} icon={Mic}/>
+        <SwitchWindow change={showSignals} icon={Pulse}/>
     </div>
 };
 

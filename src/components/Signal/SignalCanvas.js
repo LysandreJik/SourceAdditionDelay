@@ -3,47 +3,114 @@ import '../../theme/SignalCanvas.css'
 import * as d3 from 'd3'
 import SignalsController from "../../controller/SignalsController";
 import Return from "../../icons/ionicons_back.svg";
+import Folder from "../../icons/ionicons_folder.svg";
+import Add from "../../icons/ionicons_add.svg";
 import Loading from "../Loading/Loading";
 import store from '../../controller/store/Store';
 import {showSignal} from "../../controller/actions/PageActions";
+import SwitchWindow from "../SwitchWindow";
+import '../../theme/SignalBank.css'
 
 const remote = window.require('electron').remote;
 
 export let signalsController = new SignalsController();
 
-export default class SignalCanvas extends React.Component{
+export default class SignalCanvas extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {data: signalsController.getSignals(), signalChoice: false};
         this.fetchData = this.fetchData.bind(this);
-
-        console.log(this.props.signal)
-
+        this.toggleBank = this.toggleBank.bind(this);
+        this.addSignalsToBank = this.addSignalsToBank.bind(this);
+        this.removeSignalFromBank = this.removeSignalFromBank.bind(this);
         this.fetchData(this.props.signal);
     }
 
-    fetchData(signal){
-        remote.getGlobal('shared').backend.getData(['signal', signal]).then(data => {console.log(data); data = JSON.parse(data); signalsController.addSignal(data); this.setState({data: signalsController.getSignals()})})
-            .then(() => console.log('Fetched signal ! SignalsController signals : ', signalsController.getSignals().length));
+    fetchData(signal) {
+        remote.getGlobal('shared').backend.getData(['signal', signal]).then(data => {
+            data = JSON.parse(data);
+            signalsController.addSignal({signal, name: signal.split('/')[signal.split('/').length-1], data: data.signal, metadata: data.metadata});
+            this.setState({data: signalsController.getSignals()})
+        })
+            .then(() => console.log('Fetched signal ! SignalsController signals : ', signalsController.getSignals()));
     }
 
-    render(){
-        if(this.state.data.length > 0){
-            return(
+    toggleBank() {
+        this.setState({bank: !this.state.bank});
+    }
+
+    addSignalsToBank(){
+        console.log('Adding signals to bank ');
+        signalsController.addSignalsToBank(signalsController.getSignals());
+        signalsController.getSignals().forEach(signal => console.log(signal.name));
+        signalsController.clearSignals();
+
+        this.setState({data: [{data: []}]});
+    }
+
+    removeSignalFromBank(index){
+        signalsController.removeSignalFromBank(index);
+
+        this.setState({update: !this.state.update});
+    }
+
+    render() {
+        if (this.state.data.length > 0) {
+            return (
                 <div className="SignalCanvas" id="SignalCanvas">
-                    <img onClick={() => {store.dispatch(showSignal())}} className="SignalCanvas__img" src={Return} width={30} height={30}/>
+                    <Bank show={this.state.bank} addSignals={this.addSignalsToBank} removeSignal={this.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
+                    <img onClick={() => {
+                        store.dispatch(showSignal())
+                    }} className="SignalCanvas__img" src={Return} width={30} height={30}/>
                     <Chart data={this.state.data}/>
+                    <SwitchWindow left change={this.toggleBank} icon={Folder}/>
                 </div>
             )
-        }else{
+        } else {
             return <Loading/>
         }
     }
 }
 
-class Chart extends React.Component{
-    constructor(props){
+
+class Bank extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+
+
+    render() {
+        if (!this.props.show) {
+            return <div className="SignalBank"/>
+
+        } else {
+            return(
+                <div className="SignalBank"  style={{width: "700px"}}>
+                    {this.props.signals.map((signal, key) => {
+                        return(
+                            <button key={key} className="SignalBank__button" onClick={() => this.props.removeSignal(key)}>
+                                {signal.name}
+                                <br/>
+                                {"t = " + Math.floor(signal.metadata.n/signal.metadata.fs)+"s, f = "+signal.metadata.fs+"Hz"}
+                            </button>
+                        );
+                    })}
+                    <button className="SignalBank__button SignalBank__button--return" onClick={this.props.addSignals}>
+                        <img src={Add} height={15} width={15}/>
+                    </button>
+                </div>
+            )
+
+    }
+
+
+}
+}
+
+class Chart extends React.Component {
+    constructor(props) {
         super(props);
 
         this.drawChart = this.drawChart.bind(this);
@@ -51,26 +118,32 @@ class Chart extends React.Component{
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         this.drawChart();
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         this.drawChart();
     }
 
-    drawChart(){
-        if(document.getElementById('SignalCanvas__chartSvg')){
+    drawChart() {
+        if (document.getElementById('SignalCanvas__chartSvg')) {
             d3.select(".SignalCanvas__chartSvg").remove()
             d3.select(".tooltip").remove()
             d3.select(".zoom").remove()
         }
-        let width = document.getElementById("SignalCanvas__chart"+this.props.index).getBoundingClientRect().width - 120,
-            height = document.getElementById("SignalCanvas__chart"+this.props.index).getBoundingClientRect().height - 120;
+        let width = document.getElementById("SignalCanvas__chart" + this.props.index).getBoundingClientRect().width - 120,
+            height = document.getElementById("SignalCanvas__chart" + this.props.index).getBoundingClientRect().height - 120;
 
         console.log(width, height);
 
-        this.dims = ['x', 'y', 'z'].filter((item, index) => {if(index < this.props.data.length){return item}else{return null}});
+        this.dims = ['x', 'y', 'z'].filter((item, index) => {
+            if (index < this.props.data.length) {
+                return item
+            } else {
+                return null
+            }
+        });
 
         console.log(this.dims);
 
@@ -98,7 +171,7 @@ class Chart extends React.Component{
             .attr('id', 'SignalCanvas__chartSvg')
             .append("g")
             .attr("transform",
-                "translate(" + 40 + "," + 20 + ")");
+                "translate(" + 50 + "," + 20 + ")");
 
         this.svg.append("defs").append("clipPath")
             .attr("id", "clip")
@@ -107,12 +180,15 @@ class Chart extends React.Component{
             .attr("height", height);
 
         let data = [];
-        let max = Math.max(...this.props.data.map(curve => {return curve.length}));
-        for(let i = 0; i < max; i++){
+        console.log(this.props.data);
+        let max = Math.max(...this.props.data.map(curve => {
+            return curve.data.length
+        }));
+        for (let i = 0; i < max; i++) {
             let obj = {tick: i};
-            for(let j = 0; j < this.props.data.length; j++){
-                obj[this.dims[j]] = this.props.data[j][i];
-                if(!this.props.data[j][i]){
+            for (let j = 0; j < this.props.data.length; j++) {
+                obj[this.dims[j]] = this.props.data[j].data[i];
+                if (!this.props.data[j].data[i]) {
                     obj[this.dims[j]] = 0;
                 }
             }
@@ -124,8 +200,8 @@ class Chart extends React.Component{
         this.x.domain(d3.extent(data, d => d.tick));
         this.x0.domain(this.x.domain());
 
-        for(let dim of this.dims) {
-            Y[dim].domain(d3.extent(data, d => d[dim]));
+        for (let dim of this.dims) {
+            Y[dim].domain([-1.2, 1.2]);
         }
 
         this.zoom = d3.zoom()
@@ -144,7 +220,7 @@ class Chart extends React.Component{
         for (let dim of this.dims) {
             this.svg.append("path")
                 .data([data])
-                .attr("class", "line line--"+dim)
+                .attr("class", "line line--" + dim)
                 .attr("d", d => this.lines[dim](d))
         }
 
@@ -158,10 +234,15 @@ class Chart extends React.Component{
         this.svg.append("g")
             .attr("class", "axisSteelBlue")
             .attr("class", "SignalCanvas__axis")
-            .call(d3.axisLeft(Y['x']));
+            .call(d3.axisLeft(Y['x']))
+            .on("mousedown", this.mouseDown);
 
         this.zoom.scaleBy(this.rect, 2);
         this.zoom.translateBy(this.rect, width);
+    }
+
+    mouseDown() {
+        console.log("mouse down")
     }
 
     zoomed() {
@@ -175,7 +256,8 @@ class Chart extends React.Component{
         this.svg.select(".axis--x").call(d3.axisBottom(this.x));
     }
 
-    render(){
-        return <div className="SignalCanvas__chart" style={{height: "calc(100% - 80px)"}} id={"SignalCanvas__chart"+this.props.index}/>
+    render() {
+        return <div className="SignalCanvas__chart" style={{height: "calc(100% - 80px)"}}
+                    id={"SignalCanvas__chart" + this.props.index}/>
     }
 }
