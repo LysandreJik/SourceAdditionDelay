@@ -3,6 +3,7 @@ import Point from "./Point";
 import store from '../controller/store/Store'
 import {showLoading} from "../controller/actions/PageActions";
 import {showMicrophoneCanvas} from "../controller/actions/PageActions";
+import {MaxNumberOfPoints} from "../components/Environment/Options";
 const backend = window.require('electron').remote.getGlobal('shared').backend;
 
 export default class Template{
@@ -83,7 +84,7 @@ export default class Template{
         });
 
         store.dispatch(showLoading());
-        backend.getMicrophonesFromModel(['microphones', JSON.stringify(ret)]).then((data) => {console.log(data); data = JSON.parse(data); console.log('Python script execution time : ', Math.floor(data.time*1000)+ "ms."); store.dispatch(showMicrophoneCanvas(data))});
+        backend.getMicrophonesFromModel(['microphones', MaxNumberOfPoints, JSON.stringify(ret)]).then((data) => {console.log(data); data = JSON.parse(data); console.log('Python script execution time : ', Math.floor(data.time*1000)+ "ms."); store.dispatch(showMicrophoneCanvas(data))});
     }
 
     static distance(point1, point2){

@@ -16,7 +16,7 @@ export default class MicrophoneCanvas extends React.Component{
     render(){
         return(
             <div className="SignalCanvas" id="SignalCanvas">
-                <Chart signal={this.state.microphones}/>
+                <Chart signal={this.state.microphones} max={this.state.max}/>
             </div>
         )
     }
@@ -104,7 +104,7 @@ export class Chart extends React.Component {
         this.x0.domain(this.x.domain());
 
         for (let dim of this.dims) {
-            Y[dim].domain([-1.2, 1.2]);
+            Y[dim].domain([-1.5*this.props.max, 1.5*this.props.max]);
         }
 
         this.zoom = d3.zoom()
@@ -139,8 +139,8 @@ export class Chart extends React.Component {
             .attr("class", "SignalCanvas__axis")
             .call(d3.axisLeft(Y['x']))
 
-        this.zoom.scaleBy(this.rect, 2);
-        this.zoom.translateBy(this.rect, width);
+        // this.zoom.scaleBy(this.rect, 2);
+        // this.zoom.translateBy(this.rect, width);
     }
 
     zoomed() {

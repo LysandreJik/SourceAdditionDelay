@@ -14,6 +14,6 @@ class NumpyEncoder(json.JSONEncoder):
 if sys.argv[1] == "signal":
     print(json.dumps({"signal": get_file(sys.argv[2]), "metadata": get_signal_length(sys.argv[2])}, cls=NumpyEncoder))
 elif sys.argv[1] == "microphones":
-    print(json.dumps(getxn(sys.argv[2]), cls=NumpyEncoder))
+    print(json.dumps(getxn(sys.argv[3], n=int(sys.argv[2])), cls=NumpyEncoder))
 
 sys.stdout.flush()

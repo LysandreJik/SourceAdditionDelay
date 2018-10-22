@@ -22,6 +22,7 @@
     transition: all 0.3s;
     margin: 3px 0;
     font-size: 95%;
+    font-family: "Montserrat Light";
 }
 
 .SignalBank__button--basic{
@@ -77,7 +78,7 @@
 .ASK_FOR_T0__span{
     color: #b9c4c9;
     font-size: 160%;
-    font-family: Uni;
+    font-family: Montserrat Light;
     position: relative;
     text-align: center;
 }
@@ -92,7 +93,7 @@
     background: transparent;
     outline: none;
     font-style: italic;
-    font-family: Uni;
+    font-family: Montserrat Light;
     color: #b9c4c9;
 }
 
@@ -108,6 +109,8 @@
     height: 40px;
     width: 128px;
     transition: all 0.2s;
+    font-family: "Montserrat Light Italic";
+    cursor: pointer;
 }
 
 .ASK_FOR_T0__button:hover{
@@ -116,6 +119,6 @@
 
 @keyframes delayedFadein{
     0% { opacity:0; }
-    66% { opacity:0; }
+    33% { opacity:0; }
     100% { opacity:1; }
 }

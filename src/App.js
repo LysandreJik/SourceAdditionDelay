@@ -55,9 +55,9 @@ class App extends Component {
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return microphonesAndSources({showSignals: this.showSignals, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
             case AVAILABLE_PAGES.SIGNAL_CANVAS:
-                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.page.signal, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
+                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.page.signal, microphoneCanvas: this.props.page.microphoneDisplayAvailable, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
             case AVAILABLE_PAGES.SIGNAL:
-                return signals({showMicrophonesAndSources: this.showMicrophonesAndSources});
+                return signals({showMicrophonesAndSources: this.showMicrophonesAndSources, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
             case AVAILABLE_PAGES.LOADING:
                 return loading({showMicrophonesAndSources: this.showMicrophonesAndSources, callback: this.props.page.callback});
             case AVAILABLE_PAGES.MICROPHONE_CANVAS:
@@ -94,20 +94,22 @@ const microphonesAndSources = ({showSignals, microphoneCanvas}) => {
     </div>
 };
 
-const signals = ({showMicrophonesAndSources}) => {
+const signals = ({showMicrophonesAndSources, microphoneCanvas}) => {
     return <div className="App">
         <TitleBar/>
         <Signal/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
+        {microphoneCanvas ? <SwitchWindow change={() => store.dispatch(showMicrophoneCanvas())} icon={Mic} microphone/> : ""}
         <Bank removeSignal={signalsController.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
     </div>
 };
 
-const signalCanvas = ({showMicrophonesAndSources, signal}) => {
+const signalCanvas = ({showMicrophonesAndSources, signal, microphoneCanvas}) => {
     return <div className="App">
         <TitleBar/>
         <SignalCanvas signal={signal}/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network}/>
+        {microphoneCanvas ? <SwitchWindow change={() => store.dispatch(showMicrophoneCanvas())} icon={Mic} microphone/> : ""}
         <Bank add removeSignal={signalsController.removeSignalFromBank} signals={signalsController.getBankSignals()}/>
     </div>
 };

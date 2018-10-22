@@ -197,8 +197,8 @@ class Chart extends React.Component {
             .attr("class", "SignalCanvas__axis")
             .call(d3.axisLeft(Y['x']))
 
-        this.zoom.scaleBy(this.rect, 2);
-        this.zoom.translateBy(this.rect, width);
+        // this.zoom.scaleBy(this.rect, 2);
+        // this.zoom.translateBy(this.rect, width);
     }
 
     zoomed() {

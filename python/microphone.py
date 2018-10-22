@@ -36,10 +36,9 @@ def get_basic_signals(name, offset=0, length=441000):
     return s
 
 
-def getxn(model):    
+def getxn(model, n=10000):
     start_time = time.time()
     model = json.loads(model)
-    signaux = []
     maxlength = -1
 
     for source in model["sources"]:
@@ -77,5 +76,5 @@ def getxn(model):
             microphones = microphone
         else:
             microphones = np.c_[microphones, microphone]
-        
-    return {"microphones": microphones[0:-1:math.floor(len(microphone)/10000), :], "time": time.time() - start_time}
+
+    return {"microphones": microphones[0:-1:math.floor(len(microphone)/n), :], "time": time.time() - start_time, "max": max(microphones.min(), microphones.max(), key=abs)}

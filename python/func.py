@@ -166,6 +166,3 @@ def pairn(S, S_):
         signaux.append(np.c_[input_signal, S_[:, min["index"]]])
     return signaux
 
-
-# show(getxn('basic_2x2'))
-write_file(getxn('basic_2x2')[:, 0], "basic_2x2.wav")

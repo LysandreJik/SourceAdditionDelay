@@ -48,11 +48,11 @@ class Bank extends React.Component {
                     {this.props.signals.map((signal, key) => {
                         if(signal.metadata){
                             return (
-                                <button key={key} className={"SignalBank__button" + (this.props.basic && this.state.selectedSignal && this.state.selectedSignal.name === signal.name ? " SignalBank__button--selected" : "")}
+                                <button key={key} style={{animation: "delayedFadein 1."+(key)+"s forwards"}} className={"SignalBank__button" + (this.props.basic && this.state.selectedSignal && this.state.selectedSignal.name === signal.name ? " SignalBank__button--selected" : "")}
                                         onClick={this.props.basic ? () => store.dispatch(selectSignal({path: signal.signal, name: signal.name, metadata: signal.metadata})) : () => this.removeSignal(key)}>
                                     {signal.name}
                                     <br/>
-                                    {"t = " + Math.floor(signal.metadata.n / signal.metadata.fs) + "s, f = " + signal.metadata.fs + "Hz"}
+                                    <span style={{fontFamily: "Montserrat Light Italic", fontSize: "80%"}}>{"t = " + Math.floor(signal.metadata.n / signal.metadata.fs) + "s, f = " + signal.metadata.fs + "Hz"}</span>
                                 </button>
                             );
                         }
@@ -88,7 +88,7 @@ const BasicSignalButton = ({name, selectedSignal}) => {
             >
                 {name}
                 <br/>
-                t = 10s f = 41000Hz
+                <span style={{fontFamily: "Montserrat Light Italic", fontSize: "80%"}}>t = 10s f = 41000Hz</span>
             </button>
         </div>
     )

@@ -1,5 +1,5 @@
 button{
-    font-family: Uni;
+    font-family: "Montserrat Light Italic";
     font-size: 120%;
 }
 
@@ -44,8 +44,13 @@ button{
 }
 
 @font-face {
-    font-family: "Uni";
-    src: url("./theme/fonts/Uni Sans Thin.otf");
+    font-family: "Montserrat Light";
+    src: url("./theme/fonts/Montserrat/Montserrat-Light.ttf");
+}
+
+@font-face {
+    font-family: "Montserrat Light Italic";
+    src: url("./theme/fonts/Montserrat/Montserrat-LightItalic.ttf");
 }
 
 @keyframes fadeIn {

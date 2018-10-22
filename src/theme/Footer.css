@@ -15,6 +15,7 @@
     height: 45px;
     transition: all 0.5s;
     color: #211f30;
+    font-family: "Montserrat Light Italic";
 }
 
 .Footer__button:hover{

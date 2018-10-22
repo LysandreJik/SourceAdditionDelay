@@ -5,7 +5,7 @@
     height: calc(100% - 65px);
     background-color: #211f30;
     padding: 20px;
-    font-family: Uni;
+    font-family: Montserrat Light;
     overflow-y: auto;
     animation: fadeIn 0.4s;
 }

@@ -6,11 +6,12 @@
     margin: 5px 0;
     color: #b9c4c9;
     text-align: center;
-    font-family: Uni;
+    font-family: Montserrat Light;
     font-size: 150%;
     user-select: none;
     transition: 0.5s all;
 }
+
 
 .Options--big{
     height: 90px;
@@ -21,9 +22,18 @@
 }
 
 .Options__div{
+    animation: fadeIn 0.5s;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.Options__SnapToGrid{
+
+}
+
+.Options__NPoints{
+    margin-bottom: 10px;
 }
 
 .Options__snapToGridInput{
@@ -32,7 +42,7 @@
     border-bottom: 1px dotted #b9c4c9;
     color: #b9c4c9;
     margin: 20px;
-    font-family: Uni;
+    font-family: Montserrat Light;
     font-size: 70%;
     font-style: italic;
 }
@@ -44,4 +54,28 @@
     cursor: pointer;
     font-size: 40%;
     padding: 5px 10px;
+    transition: all 0.3s;
+    width: 100px;
+}
+
+.Options__snapToGridValidate--big{
+    font-size: 80%;
+}
+
+.Options__snapToGridValidate--selected{
+    background-color: #b9c4c9;
+    color: #211f30;
+}
+
+.Options__snapToGridValidate:hover{
+    background-color: #b9c4c9;
+    color: #211f30;
+    cursor: pointer;
+    font-size: 40%;
+    padding: 5px 10px;
+}
+
+.Options__snapToGridValidate--big:hover{
+    font-size: 80%;
+    width: 150px;
 }
