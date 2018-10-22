@@ -29,7 +29,7 @@ export default class Footer extends React.Component{
                 </button>
                 <button
                     className="Footer__button Footer__button--small"
-                    onClick={() => Template.exportDelaysAndAttenuations()}
+                    onClick={() => {console.log(pointsController.getSources()); Template.exportDelaysAndAttenuations()}}
                 >
                     DELAYS
                 </button>

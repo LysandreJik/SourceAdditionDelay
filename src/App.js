@@ -44,7 +44,6 @@ class App extends Component {
     }
 
 	render() {
-        console.log('refresh', this.props.ux);
 		switch(this.props.page.page){
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return microphonesAndSources({showSignals: this.showSignals});

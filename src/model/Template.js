@@ -27,7 +27,7 @@ export default class Template{
         let sos = 34000;
 
         let microphones = pointsController.getMicrophones().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
-        let sources = pointsController.getSources().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
+        let sources = pointsController.getSources().map((point , index) =>  {return {path: point.getType().path, name: point.getType().name, t0: point.getT0(), x: point.getX(), y: point.getY(), index}});
 
         let ret = {
             microphones,
