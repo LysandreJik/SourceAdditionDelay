@@ -6,8 +6,10 @@
 }
 
 .Footer__button{
+    cursor: pointer;
     position: relative;
-    width: 40%;
+    margin: 0 5px;
+    width: calc(33% - 10px);
     background-color: #b9c4c9;
     border: none;
     height: 45px;
@@ -22,11 +24,8 @@
 }
 
 .Footer__button--selected{
-    background-color: #211f30;
+    /*background-color: #ff301d;*/
     transition: all 0.5s;
-    color: #b9c4c9;
+    color: black;
 }
 
-.Footer__button--small{
-    width: 10%;
-}

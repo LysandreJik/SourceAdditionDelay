@@ -34,7 +34,6 @@ class Bank extends React.Component {
     }
 
     render() {
-        console.log(this.props.ux);
         if (!this.state.openBank) {
             return <div className="SignalBank">
                 <SwitchWindow left change={() => store.dispatch(toggleBank())} icon={Folder}/>

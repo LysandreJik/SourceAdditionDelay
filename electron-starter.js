@@ -77,6 +77,21 @@ let listDirectory = (path) => new Promise((success, failure) => {
     })
 });
 
+let getMicrophonesFromModel = (arg) => new Promise((success, failure) => {
+    console.log("Fetching microphones ...");
+    const spawn = require("child_process").spawn;
+    arg.unshift('./python/main.py');
+    const pythonProcess = spawn('python', arg);
+
+    pythonProcess.stdout.on('data', function(data){
+        success(data.toString());
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        failure(data.toString());
+    });
+});
+
 let backend = {
     async getData(arg){
         return await getData(arg).then((data) => {return data}, (data) => {return data});
@@ -84,6 +99,10 @@ let backend = {
 
     async listDirectory(path){
         return await listDirectory(path).then(data => {return data}, data => {return data})
+    },
+
+    async getMicrophonesFromModel(model){
+        return await getMicrophonesFromModel(model).then((data) => {return data}, (data) => {return data});
     }
 };
 

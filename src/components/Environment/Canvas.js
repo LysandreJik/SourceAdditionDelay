@@ -222,7 +222,6 @@ class Point extends React.Component {
     }
 
     getStyle() {
-        console.log(this.props.object);
         return (
             <div
                 onMouseDown={this.onMouseDown}

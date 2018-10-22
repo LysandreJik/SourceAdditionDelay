@@ -2,6 +2,7 @@
 export const AVAILABLE_PAGES = {
     ENVIRONMENT_CANVAS: "ENVIRONMENT_CANVAS",
     SIGNAL_CANVAS: "SIGNAL_CANVAS",
+    MICROPHONE_CANVAS: "MICROPHONE_CANVAS",
     SIGNAL: "SIGNAL",
     LOADING: "LOADING",
 };
@@ -16,13 +17,14 @@ export default function PageReducer(state = {
     page: AVAILABLE_PAGES.ENVIRONMENT_CANVAS
 }, action) {
     if (action.type === AVAILABLE_TYPES.CHANGE_PAGE) {
-        console.log(action);
         switch (action.page) {
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
-                return action;
+                return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
             case AVAILABLE_PAGES.SIGNAL:
-                return action;
+                return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
             case AVAILABLE_PAGES.SIGNAL_CANVAS:
+                return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
+            case AVAILABLE_PAGES.MICROPHONE_CANVAS:
                 return action;
             case AVAILABLE_PAGES.LOADING:
                 return action;

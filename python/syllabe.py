@@ -50,3 +50,5 @@ def get_basic_signals(name, offset=0, length=441000):
         s = np.append(np.zeros(offset), signal.sawtooth(np.linspace(0, 10, length)))
 
     return s
+
+    

@@ -19,7 +19,6 @@ export default function UXReducer(state = {
     action: AVAILABLE_UX_ACTIONS.NONE
 }, action) {
     if (action.type === AVAILABLE_TYPES.UX_ACTION) {
-        console.log(action);
         switch (action.action) {
             case AVAILABLE_UX_ACTIONS.TOGGLE_BANK:
                 return {...action, openBank: !state.openBank, refreshApp: state.refreshApp};

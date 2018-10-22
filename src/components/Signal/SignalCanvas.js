@@ -155,6 +155,7 @@ class Chart extends React.Component {
             data.push(obj);
         }
 
+        console.log(data);
 
         // Set domain scales
         this.x.domain(d3.extent(data, d => d.tick));

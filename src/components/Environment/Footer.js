@@ -28,10 +28,16 @@ export default class Footer extends React.Component{
                     Add microphone
                 </button>
                 <button
-                    className="Footer__button Footer__button--small"
-                    onClick={() => {console.log(pointsController.getSources()); Template.exportDelaysAndAttenuations()}}
+                    className="Footer__button"
+                    onClick={() => {Template.exportDelaysAndAttenuations()}}
                 >
-                    DELAYS
+                    Save model
+                </button>
+                <button
+                    className="Footer__button"
+                    onClick={() => {Template.fetchMicrophonesInput()}}
+                >
+                    Show microphones input
                 </button>
             </div>
         )

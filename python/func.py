@@ -9,6 +9,7 @@ import json
 from syllabe import get_basic_signals, get_signal, get_entire_signal
 dirpath = os.path.dirname(os.path.abspath('__file__'))
 
+
 def sine(frequency, size=1000):
     return np.sin(np.linspace(0, frequency, size))
 
@@ -30,13 +31,13 @@ def zeros():
 
 
 def write_file(file, filename, fs=44100):
-    wavfile.write(dirpath+"\\"+filename, fs, file)
+    wavfile.write(dirpath+"\\output\\"+filename, fs, file)
 
 
 def show(signals, subplot=True):
     plt.figure()
     if subplot:
-        if(len(signals.shape) > 1):
+        if len(signals.shape) > 1:
             for index in range(signals.shape[1]):
                 plt.subplot(signals.shape[1], 1, index+1)
                 plt.plot(signals[:, index])
@@ -58,11 +59,13 @@ def timing(f):
         return ret
     return wrap
 
+
 def get_model(file_name):
     with open(dirpath+'\\models\\'+file_name+'\\delays.json') as f:
         data = json.load(f)
 
     return data
+
 
 @timing
 def ICA(X):
@@ -82,7 +85,7 @@ def get_X_mat_2_sig(s1, s2, A=[[1, 1], [1, 1]], temporal_offset=1):
 
 @timing
 def getxn(model):
-    print('Fetching model : ', model)
+    # print('Fetching model : ', model)
     model = get_model(model)
 
     signaux = []
@@ -103,20 +106,19 @@ def getxn(model):
     signaux = np.zeros(maxlength)
 
     for source in model["sources"]:
-        # print(source)
-        # print('Max length : ', maxlength)
         if source['path'] == "basic":
             signal = get_basic_signals(source['name'], offset=int(source['t0'])*44100)
-            sig = np.append(signal, np.zeros(maxlength - len(signal)))
+            sig = normalize(np.append(signal, np.zeros(maxlength - len(signal))))
             signaux = np.c_[signaux, sig]
         else:
             signal = get_entire_signal(source['path'], int(source['t0'])*44100)
             write_file(signal, source['name'])
-            sig = np.append(signal, np.zeros(maxlength - len(signal)))
+            sig = normalize(np.append(signal, np.zeros(maxlength - len(signal))))
             signaux = np.c_[signaux, sig]
 
-    signaux = np.delete(signaux,(0), axis=1)
-    # show(signaux)
+    signaux = signaux[:, 1:3]
+    for index, source in enumerate(signaux.T):
+        write_file(source, "source"+str(index)+".wav")
 
     for index, microphoneRelationship in enumerate(model['relationships']):
         microphone = np.zeros(signaux.shape[0])
@@ -127,7 +129,6 @@ def getxn(model):
                 microphone = np.array(np.add(microphone, np.append(np.zeros(temporal_offset), np.dot(1-individualRelationship['attenuation'], signaux[:, index2])[0:-temporal_offset])))
             else:
                 microphone = np.array(np.add(microphone, np.dot(1-individualRelationship['attenuation'], signaux[:, index2])))
-
         if index == 0:
             microphones = microphone
         else:
@@ -135,13 +136,13 @@ def getxn(model):
     return microphones
 
 
-show(getxn('triangle_2x1'))
-write_file(getxn('triangle_2x1'), "triangle_2x1.wav")
+
+
 
 def flip(X):
     return -X
 
-
+ 
 def normalize(X):
     return X/abs(np.amax(X))
 
@@ -166,3 +167,5 @@ def pairn(S, S_):
     return signaux
 
 
+# show(getxn('basic_2x2'))
+write_file(getxn('basic_2x2')[:, 0], "basic_2x2.wav")
