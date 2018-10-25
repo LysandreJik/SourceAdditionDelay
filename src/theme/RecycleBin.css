@@ -1,0 +1,86 @@
+.RecycleBin{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    transform: scale(0.5);
+}
+
+.sampah {
+    background:#b9c4c9;
+    width: 66px;
+    height: 80px;
+    display: inline-block;
+    margin:0 auto;
+
+    position: relative;
+    -webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.sampah span {
+    position: absolute;
+    height: 12px;
+    background: #b9c4c9;
+    top: -19px;
+    left: -10px;
+    right: -10px;
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transform: rotate(0deg);
+    transition: transform 250ms;
+    transform-origin: 19% 100%;
+}
+.sampah span:after {
+    content: '';
+    position: absolute;
+    width: 27px;
+    height: 7px;
+    background: #b9c4c9;
+    top: -10px;
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transform: rotate(0deg);
+    transition: transform 250ms;
+    transform-origin: 19% 100%;
+    left: 27px;
+}
+
+
+.sampah i {
+    position:relative;
+    width: 5px;
+    height:50px;
+    background: #211f30;
+    display:block;
+    margin:14px auto;
+    border-radius: 5px;
+}
+.sampah i:after {
+    content: '';
+    width: 5px;
+    height: 50px;
+    background: #211f30;
+    position: absolute;
+    left: -18px;
+    border-radius: 5px;
+}
+.sampah i:before {
+    content: '';
+    width: 5px;
+    height: 50px;
+    background: #211f30;
+    position: absolute;
+    right: -18px;
+    border-radius: 5px;
+}
+
+.sampah:hover span {
+    transform: rotate(-45deg);
+    transition: transform 250ms;
+}

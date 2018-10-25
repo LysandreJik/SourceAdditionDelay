@@ -4,6 +4,7 @@ import {pointsController} from "../../App";
 import {SnapToGrid} from "./Options";
 import store from '../../controller/store/Store';
 import {askForT0, hideT0} from "../../controller/actions/UXActions";
+import '../../theme/RecycleBin.css';
 
 const SVG = require('svg.js');
 
@@ -16,6 +17,7 @@ export default class Canvas extends React.Component {
         this.addPoint = this.addPoint.bind(this);
         this.drawLine = this.drawLine.bind(this);
         this.hideLines = this.hideLines.bind(this);
+        this.removePoint = this.removePoint.bind(this);
         this.refreshCanvas = this.refreshCanvas.bind(this);
     }
 
@@ -81,6 +83,12 @@ export default class Canvas extends React.Component {
         let text = this.draw.text(String(Math.round(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)))) + "cm").fill('#b9c4c9').stroke({color: "#b9c4c9"}).move((x1 + x2) / 2, (y1 + y2) / 2);
     }
 
+    removePoint(index){
+        console.log('deleting', index);
+        pointsController.removePoint(index);
+        this.setState({points: pointsController.getPoints()})
+    }
+
     render() {
         return (
             <div id="Canvas" className="Canvas blueprint" onClick={this.addPoint} onMouseUp={this.mouseUp}
@@ -88,11 +96,33 @@ export default class Canvas extends React.Component {
                 {this.state.points.map((point, index) => {
                     return (
                         <Point index={index} key={index} object={point} hideLines={this.hideLines}
-                               refreshCanvas={this.refreshCanvas}/>
+                               refreshCanvas={this.refreshCanvas} removePoint={this.removePoint}/>
                     );
                 })}
                 <div id={"drawing"}/>
                 <MouseIndicator/>
+                <RecycleBin/>
+            </div>
+        )
+    }
+}
+
+let hoverRecycleBin = false;
+
+class RecycleBin extends React.Component{
+
+    componentDidMount(){
+        document.getElementById("RecycleBin").addEventListener("mouseover", () => {hoverRecycleBin = true});
+        document.getElementById("RecycleBin").addEventListener("mouseleave", () => {hoverRecycleBin = false});
+    }
+
+    render(){
+        return(
+            <div className="RecycleBin" id="RecycleBin">
+                <span className="sampah">
+                    <span/>
+                    <i/>
+                </span>
             </div>
         )
     }
@@ -155,6 +185,9 @@ class Point extends React.Component {
     }
 
     onMouseUp() {
+        if(hoverRecycleBin && this.dragging){
+            this.props.removePoint(this.props.index);
+        }
         this.dragging = false;
         this.props.refreshCanvas();
     }

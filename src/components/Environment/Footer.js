@@ -37,7 +37,7 @@ export default class Footer extends React.Component{
                     className="Footer__button"
                     onClick={() => {Template.fetchMicrophonesInput()}}
                 >
-                    Show microphones input
+                    Generate
                 </button>
             </div>
         )

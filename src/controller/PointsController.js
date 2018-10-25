@@ -31,7 +31,9 @@ export default class PointsController{
     }
 
     removePoint(index){
-        this._points.slice(index, 1);
+        console.log(this._points);
+        this._points.splice(index, 1);
+        console.log(this._points);
     }
 
     getPoints(){
