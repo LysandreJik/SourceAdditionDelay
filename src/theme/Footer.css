@@ -2,21 +2,25 @@
     position: relative;
     width: 100%;
     border-top: 5px solid #32384d;
-    height: 50px;
+    height: 80px;
 }
 
 .Footer__button{
     top: 0;
     cursor: pointer;
     position: relative;
-    margin: 0 5px;
-    width: calc(33% - 8px);
+    width: 33.3%;
     background-color: #b9c4c9;
     border: none;
-    height: 45px;
+    height: 37px;
     transition: all 0.5s;
     color: #211f30;
+    border: 2px solid #32384d;
     font-family: "Montserrat Light Italic";
+}
+
+.Footer__button--large{
+    width: 50%;
 }
 
 .Footer__button:hover{

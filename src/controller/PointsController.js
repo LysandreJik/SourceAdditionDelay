@@ -30,6 +30,13 @@ export default class PointsController{
         return this._points.filter((point) => point.getType() !== "microphone")
     }
 
+    randomizePositions(minX, minY, maxX, maxY){
+        this._points.forEach((point) => {
+            point.setX(Math.floor((Math.random() * (maxX - minX)) + minX));
+            point.setY(Math.floor((Math.random() * (maxY - minY)) + minY));
+        })
+    }
+
     removePoint(index){
         console.log(this._points);
         this._points.splice(index, 1);

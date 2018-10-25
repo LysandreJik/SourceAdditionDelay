@@ -2,6 +2,8 @@ import React from 'react'
 import "../../theme/Footer.css"
 import {pointsController} from "../../App";
 import Template from "../../model/Template";
+import {refreshApp} from "../../controller/actions/UXActions";
+import store from '../../controller/store/Store'
 
 export default class Footer extends React.Component{
     constructor(props){
@@ -15,6 +17,12 @@ export default class Footer extends React.Component{
     setMicrophones(){
         this.setState({selected: "microphone"});
         pointsController.setMicrophones();
+    }
+
+    randomizePoints(){
+        let canvas = document.getElementById('Canvas').getBoundingClientRect();
+        pointsController.randomizePositions(20, 20, canvas.width-20, canvas.height-20);
+        store.dispatch(refreshApp());
     }
 
     render(){
@@ -35,6 +43,19 @@ export default class Footer extends React.Component{
                 </button>
                 <button
                     className="Footer__button"
+                    onClick={this.randomizePoints}
+                >
+                    Randomize positions
+                </button>
+                <br/>
+                <button
+                    className="Footer__button Footer__button--large"
+                    onClick={() => {Template.exportDelaysAndAttenuations()}}
+                >
+                    Randomize bank signals
+                </button>
+                <button
+                    className="Footer__button Footer__button--large"
                     onClick={() => {Template.fetchMicrophonesInput()}}
                 >
                     Generate

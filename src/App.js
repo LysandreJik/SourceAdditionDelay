@@ -50,7 +50,6 @@ class App extends Component {
     }
 
 	render() {
-        console.log(this.props.page);
 		switch(this.props.page.page){
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return microphonesAndSources({showSignals: this.showSignals, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
