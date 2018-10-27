@@ -1,0 +1,36 @@
+
+.Neural{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: calc(100% - 80px);
+    height: calc(100% - 60px);
+    grid-gap: 20px;
+    position: relative;
+    padding: 40px;
+    padding-top: 20px;
+}
+
+.Neural__Environment{
+    background-color: #211f30;
+    animation: fadeIn 0.3s ease;
+    width: 60%;
+}
+
+.Neural__InputSignals{
+    background-color: #211f30;
+    animation: fadeIn 0.3s ease;
+}
+
+.Neural__NeuralArchitecture{
+    animation: fadeIn 0.3s ease;
+    background-color: #211f30;
+    position: relative;
+    left: -19.7%;
+    width: 139.8%;
+}
+
+.Neural__NeuralInformation{
+    animation: fadeIn 0.3s ease;
+    background-color: #211f30;
+}
+
