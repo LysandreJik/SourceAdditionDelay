@@ -47,6 +47,8 @@ export default class Canvas extends React.Component {
         }
     }
 
+
+
     componentDidMount() {
         if (!this.draw)
             this.draw = SVG('drawing').size(2500, 2500);
@@ -55,6 +57,9 @@ export default class Canvas extends React.Component {
     }
 
     componentDidUpdate() {
+        if(this.state.points !== pointsController.getPoints()){
+            this.setState({points: pointsController.getPoints()});
+        }
         this.draw.clear();
         pointsController.getMicrophones().map(microphone => {
             pointsController.getSources().map(source => {
@@ -91,8 +96,7 @@ export default class Canvas extends React.Component {
 
     render() {
         return (
-            <div id="Canvas" className="Canvas blueprint" onClick={this.addPoint} onMouseUp={this.mouseUp}
-                 onMouseDown={this.mouseDown} onMouseMove={this.mouseMove}>
+            <div id="Canvas" className="Canvas blueprint" onClick={this.addPoint}>
                 {this.state.points.map((point, index) => {
                     return (
                         <Point index={index} key={index} object={point} hideLines={this.hideLines}

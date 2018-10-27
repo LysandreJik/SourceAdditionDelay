@@ -36,14 +36,14 @@ class Bank extends React.Component {
     render() {
         if (!this.state.openBank) {
             return <div className="SignalBank">
-                <SwitchWindow left change={() => store.dispatch(toggleBank())} icon={Folder}/>
+                <SwitchWindow left position={0} total={1} change={() => store.dispatch(toggleBank())} icon={Folder}/>
                 {this.props.ux.action === AVAILABLE_UX_ACTIONS.ASK_FOR_T0 ? <AskForT0 success={this.props.ux.success} failure={this.props.ux.failure}/> : ""}
             </div>
 
         } else {
             return (
                 <div className="SignalBank" style={{width: "400px"}}>
-                    <SwitchWindow left={"360px"} change={() => store.dispatch(toggleBank())} icon={Folder}/>
+                    <SwitchWindow left={"360px"} position={0} total={1} change={() => store.dispatch(toggleBank())} icon={Folder}/>
                     {this.props.basic ? <BasicSignals selectedSignal={this.state.selectedSignal}/> : ""}
                     {this.props.signals.map((signal, key) => {
                         if(signal.metadata){

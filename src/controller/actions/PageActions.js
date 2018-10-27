@@ -41,6 +41,14 @@ export function showSignal(){
     }
 }
 
+export function showNeural(){
+    store.dispatch(closeBank());
+    return{
+        type: AVAILABLE_TYPES.CHANGE_PAGE,
+        page: AVAILABLE_PAGES.NEURAL,
+    }
+}
+
 
 export function showLoading(callback){
     store.dispatch(closeBank());

@@ -5,6 +5,7 @@ export const AVAILABLE_PAGES = {
     MICROPHONE_CANVAS: "MICROPHONE_CANVAS",
     SIGNAL: "SIGNAL",
     LOADING: "LOADING",
+    NEURAL: "NEURAL",
 };
 
 export const AVAILABLE_TYPES = {
@@ -23,6 +24,8 @@ export default function PageReducer(state = {
             case AVAILABLE_PAGES.SIGNAL:
                 return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
             case AVAILABLE_PAGES.SIGNAL_CANVAS:
+                return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
+            case AVAILABLE_PAGES.NEURAL:
                 return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
             case AVAILABLE_PAGES.MICROPHONE_CANVAS:
                 return action;

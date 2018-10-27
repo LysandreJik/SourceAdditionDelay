@@ -103,6 +103,10 @@ let backend = {
 
     async getMicrophonesFromModel(model){
         return await getMicrophonesFromModel(model).then((data) => {return data}, (data) => {return data});
+    },
+
+    saveData(data, filename){
+        fs.writeFile(filename+'.json', data, 'utf8');
     }
 };
 

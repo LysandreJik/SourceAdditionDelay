@@ -12,13 +12,21 @@ button{
     overflow: hidden;
 }
 
-.titlebar {
-    position: relative;
-    width: 100%;
-    height: 20px;
+.titlebarWrapper{
     -webkit-user-select: none;
     -webkit-app-region: drag;
-    /*left: calc(100% - 92px);*/
+}
+
+.titlebar {
+    height: 20px;
+    width: 100px;
+    right: 0;
+    left: calc(100% - 100px);
+    position: relative;
+}
+
+.titlebar-left{
+    left: 0;
 }
 
 .titlebar__button {

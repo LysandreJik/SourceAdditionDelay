@@ -20,6 +20,7 @@ export default class PointsController{
 
     addPoint(x, y, type, T0){
         this._points.push(new Point(x, y, type, T0));
+        console.log(this._points);
     }
 
     getMicrophones(){
@@ -45,5 +46,9 @@ export default class PointsController{
 
     getPoints(){
         return this._points;
+    }
+
+    clearPoints(){
+        this._points = [];
     }
 }
