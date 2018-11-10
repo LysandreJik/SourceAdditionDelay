@@ -5,6 +5,7 @@ import {showLoading} from "../controller/actions/PageActions";
 import {showMicrophoneCanvas} from "../controller/actions/PageActions";
 import {MaxNumberOfPoints} from "../components/Environment/Options";
 import {refreshApp} from "../controller/actions/UXActions";
+console.log(window.require('electron').remote)
 const backend = window.require('electron').remote.getGlobal('shared').backend;
 
 export default class Template{

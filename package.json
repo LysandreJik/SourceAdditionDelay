@@ -1,23 +1,17 @@
 {
   "name": "Delay",
+  "description": "An app to generate delays between sources and microphones",
+  "author": "Lysandre Debut",
   "version": "1.0.0",
   "private": true,
-  "keywords": [
-    "lysandreleboss",
-    "Electron",
-    "PFE",
-    "airbus",
-    "sound",
-    "addition",
-    "delay"
-  ],
   "dependencies": {
-    "@shopify/draggable": "^1.0.0-beta.8",
-    "chartist": "^0.11.0",
+    "cross-env": "5.1.6",
+    "electron-is-dev": "0.3.0",
+    "electron-log": "^2.2.6",
+    "react": "16.4.0",
+    "react-dom": "16.4.0",
+    "update-electron-app": "^1.2.0",
     "d3": "^5.7.0",
-    "electron-is-dev": "^1.0.1",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
     "react-scripts": "2.0.5",
     "redux": "^4.0.1",
@@ -25,18 +19,36 @@
     "redux-thunk": "^2.3.0",
     "svg.js": "^2.6.6"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron": "electron .",
-    "dist": "build"
+  "devDependencies": {
+    "concurrently": "3.5.1",
+    "electron": "2.0.2",
+    "electron-builder": "^20.15.1",
+    "prettier": "^1.4.4",
+    "react-scripts": "1.1.4",
+    "wait-on": "2.1.0"
   },
-  "homepage": "./",
+  "build": {
+    "publish": {
+      "provider": "github"
+    },
+    "appId": "com.lysandre.pfe",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  },
+  "icon": "build/icon.ico",
   "main": "public/electron.js",
-  "eslintConfig": {
-    "extends": "react-app"
+  "homepage": "./",
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "browserslist": [
     ">0.2%",
@@ -44,17 +56,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {
-    "electron": "^3.0.4",
-    "electron-builder": "^20.33.2"
-  },
-  "build": {
-    "appId": "com.lysandre.pfe",
-    "win": {
-      "target": "nsis",
-      "icon": "build/microphone.ico"
-    }
-  },
-  "author": "Lysandre Debut",
-  "description": "An app to generate delays between sources and microphones"
+  "repository": "https://github.com/LysandreJik/SourceAdditionDelay"
 }
