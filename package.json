@@ -1,12 +1,21 @@
 {
-  "name": "source-addition-delay",
-  "version": "0.1.0",
+  "name": "Delay",
+  "version": "1.0.0",
   "private": true,
+  "keywords": [
+    "lysandreleboss",
+    "Electron",
+    "PFE",
+    "airbus",
+    "sound",
+    "addition",
+    "delay"
+  ],
   "dependencies": {
     "@shopify/draggable": "^1.0.0-beta.8",
     "chartist": "^0.11.0",
     "d3": "^5.7.0",
-    "electron": "^3.0.4",
+    "electron-is-dev": "^1.0.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
@@ -22,9 +31,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "start-electron": "electron . && react-scripts start"
+    "dist": "build"
   },
-  "main": "electron-starter.js",
+  "homepage": "./",
+  "main": "public/electron.js",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -33,5 +43,18 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "electron": "^3.0.4",
+    "electron-builder": "^20.33.2"
+  },
+  "build": {
+    "appId": "com.lysandre.pfe",
+    "win": {
+      "target": "nsis",
+      "icon": "build/microphone.ico"
+    }
+  },
+  "author": "Lysandre Debut",
+  "description": "An app to generate delays between sources and microphones"
 }

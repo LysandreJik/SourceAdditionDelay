@@ -88,18 +88,21 @@ export default class Template{
         backend.getMicrophonesFromModel(['microphones', MaxNumberOfPoints, JSON.stringify(ret)]).then((data) => {console.log(data); data = JSON.parse(data); console.log('Python script execution time : ', Math.floor(data.time*1000)+ "ms."); store.dispatch(showMicrophoneCanvas(data))});
     }
 
-    static fetchAndSave(numberOfRandomGenerations = 100, medium = "air", title = "delays"){
+    static fetchAndSave(numberOfRandomGenerations = 10, medium = "air", title = "delays"){
         if(numberOfRandomGenerations > 0){
             let sos = 34000;
 
             let microphones = pointsController.getMicrophones().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
-            let sources = pointsController.getSources().map((point , index) =>  {return {path: point.getType().path, name: point.getType().name, t0: point.getT0(), x: point.getX(), y: point.getY(), index}});
+            let sources = pointsController.getSources().map((point , index) =>  {return {path: point.getType().path, name: point.getType().name, t0: point.getT0(), t: point.getType().metadata.n/point.getType().metadata.fs, x: point.getX(), y: point.getY(), index}});
 
             let ret = {
                 microphones,
                 sources,
                 relationships: []
             };
+
+            console.log('Sources', sources);
+
 
             microphones.map(microphone => {
                 let relationship = [];
@@ -108,16 +111,23 @@ export default class Template{
                         microphoneIndex: microphone.index,
                         sourceIndex: source.index,
                         delay: Template.distance(microphone, source)/sos,
-                        attenuation: (Template.distance(microphone, source)/100)*0.01
+                        attenuation: (Template.distance(microphone, source)/100)*0.01,
                     });
 
                 });
                 ret.relationships.push(relationship);
             });
 
+            ret.info = {
+                date: new Date().toISOString(),
+                nbMicros: microphones.length,
+                nbSources: sources.length,
+                version: 1.0
+            };
+
             backend.getMicrophonesFromModel(['save', JSON.stringify(ret)])
                 .then((data) => {
-                    console.log(data);
+                    console.log("Data boi", data);
                 })
                 .then(() => {
                     let canvas = document.getElementById('Canvas').getBoundingClientRect();
