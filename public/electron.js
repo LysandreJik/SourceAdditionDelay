@@ -55,15 +55,18 @@ let listDirectory = (path) => new Promise((success, failure) => {
         if(err)
             failure(err);
 
-        let ret = items.map(item => {console.log({item, directory: fs.lstatSync(path+"/"+item).isDirectory()}); return {item, directory: fs.lstatSync(path+"/"+item).isDirectory()}});
-        console.log(ret);
-        console.log('Success !');
+        let filteredItems = items.filter(item => fs.lstatSync(path+"/"+item).isDirectory() || item.split('.')[item.split('.').length-1] === "wav");
+
+        let ret = filteredItems.map(item =>  {return {item, directory: fs.lstatSync(path+"/"+item).isDirectory()};
+        });
+        //console.log(ret);
+        //console.log('Success !');
         success(JSON.stringify(ret));
     })
 });
 
 let getMicrophonesFromModel = (arg) => new Promise((success, failure) => {
-    console.log("Fetching microphones ...");
+    //console.log("Fetching microphones ...");
     const spawn = require("child_process").spawn;
     arg.unshift('./python/main.py');
     const pythonProcess = spawn('python', arg);
@@ -77,13 +80,24 @@ let getMicrophonesFromModel = (arg) => new Promise((success, failure) => {
     });
 });
 
+let pathSaved = "";
+
 let backend = {
     async getData(arg){
         return await getData(arg).then((data) => {return data}, (data) => {return data});
     },
 
     async listDirectory(path){
-        return await listDirectory(path).then(data => {return data}, data => {return data})
+        path ? pathSaved = path : "";
+        if(path){
+            pathSaved = path
+        }else{
+            pathSaved = pathSaved.split('/').slice(0, -1).join('/')
+        }
+
+        console.log('Fetching pathsaved', pathSaved)
+
+        return await listDirectory(pathSaved).then(data => {console.log(data); if(path){return data}else{return({data, path: pathSaved});}});
     },
 
     async getMicrophonesFromModel(model){

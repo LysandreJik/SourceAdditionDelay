@@ -6,7 +6,7 @@ export default class SwitchWindow extends React.Component{
 
     getStyle(){
 
-        console.log(this.props);
+        //console.log(this.props);
 
         let style = {};
         if(this.props.left){
@@ -18,10 +18,10 @@ export default class SwitchWindow extends React.Component{
         }
 
         let val = (2*this.props.position + 1 - this.props.total)*50 - 50;
-        console.log(val);
+        //console.log(val);
 
         style.top = "calc(50% + " + val + "px)";
-        console.log(style.top);
+        //console.log(style.top);
 
         return style;
     }

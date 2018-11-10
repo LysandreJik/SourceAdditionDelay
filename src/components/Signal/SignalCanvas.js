@@ -57,7 +57,7 @@ export default class SignalCanvas extends React.Component {
     }
 
     render() {
-        console.log((this.state.data && this.state.data[0].data.length > 0) || signalsController.getBankSignals().length)
+        //console.log((this.state.data && this.state.data[0].data.length > 0) || signalsController.getBankSignals().length)
         if ((this.state.data && this.state.data[0].data.length > 0) || signalsController.getBankSignals().length) {
             return (
                 <div className="SignalCanvas" id="SignalCanvas">
@@ -155,7 +155,7 @@ class Chart extends React.Component {
             data.push(obj);
         }
 
-        console.log(data);
+        //console.log(data);
 
         // Set domain scales
         this.x.domain(d3.extent(data, d => d.tick));

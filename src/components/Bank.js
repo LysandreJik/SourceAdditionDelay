@@ -47,7 +47,7 @@ class Bank extends React.Component {
                     {this.props.basic ? <BasicSignals selectedSignal={this.state.selectedSignal}/> : ""}
                     {this.props.signals.map((signal, key) => {
                         if(signal.metadata){
-                            console.log(signal.metadata.n/signal.metadata.fs);
+                            //console.log(signal.metadata.n/signal.metadata.fs);
                             return (
                                 <button key={key} style={{animation: "delayedFadein 1."+(key)+"s forwards"}} className={"SignalBank__button" + (this.props.basic && this.state.selectedSignal && this.state.selectedSignal.name === signal.name ? " SignalBank__button--selected" : "")}
                                         onClick={this.props.basic ? () => store.dispatch(selectSignal({path: signal.signal, name: signal.name, metadata: signal.metadata})) : () => this.removeSignal(key)}>

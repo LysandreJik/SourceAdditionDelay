@@ -41,7 +41,7 @@ export default class Footer extends React.Component{
 
         let bankSignals = signalsController.getBankSignals();
 
-        console.log(bankSignals);
+        //console.log(bankSignals);
 
         bankSignals.forEach(signal => {
             if(signal.signal.startsWith('.')){

@@ -89,7 +89,7 @@ export default class Canvas extends React.Component {
     }
 
     removePoint(index){
-        console.log('deleting', index);
+        //console.log('deleting', index);
         pointsController.removePoint(index);
         this.setState({points: pointsController.getPoints()})
     }

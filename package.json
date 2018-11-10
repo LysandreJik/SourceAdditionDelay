@@ -6,18 +6,19 @@
   "private": true,
   "dependencies": {
     "cross-env": "5.1.6",
+    "d3": "^5.7.0",
     "electron-is-dev": "0.3.0",
+    "electron-json-storage": "^4.1.4",
     "electron-log": "^2.2.6",
     "react": "16.4.0",
     "react-dom": "16.4.0",
-    "update-electron-app": "^1.2.0",
-    "d3": "^5.7.0",
     "react-redux": "^5.0.7",
     "react-scripts": "2.0.5",
     "redux": "^4.0.1",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.3.0",
-    "svg.js": "^2.6.6"
+    "svg.js": "^2.6.6",
+    "update-electron-app": "^1.2.0"
   },
   "devDependencies": {
     "concurrently": "3.5.1",

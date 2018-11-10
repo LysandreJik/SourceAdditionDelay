@@ -48,7 +48,7 @@ class App extends Component {
     }
 
     showSignals(){
-        store.dispatch(showSignal())
+        store.dispatch(showSignal(window.require('electron').remote.require('electron').dialog.showOpenDialog({properties: ['openDirectory']})));
     }
 
     showNeural(){
@@ -60,9 +60,9 @@ class App extends Component {
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return microphonesAndSources({showSignals: this.showSignals, microphoneCanvas: this.props.page.microphoneDisplayAvailable, showNeural: this.showNeural});
             case AVAILABLE_PAGES.SIGNAL_CANVAS:
-                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.page.signal, microphoneCanvas: this.props.page.microphoneDisplayAvailable, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
+                return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.page.signal, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
             case AVAILABLE_PAGES.SIGNAL:
-                return signals({showMicrophonesAndSources: this.showMicrophonesAndSources, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
+                return signals({showMicrophonesAndSources: this.showMicrophonesAndSources, microphoneCanvas: this.props.page.microphoneDisplayAvailable, path: this.props.page.path});
             case AVAILABLE_PAGES.LOADING:
                 return loading({showMicrophonesAndSources: this.showMicrophonesAndSources, callback: this.props.page.callback});
             case AVAILABLE_PAGES.MICROPHONE_CANVAS:
@@ -115,10 +115,10 @@ const neural = ({showSignals, microphoneCanvas, showMicrophonesAndSources}) => {
     </div>
 };
 
-const signals = ({showMicrophonesAndSources, microphoneCanvas}) => {
+const signals = ({showMicrophonesAndSources, microphoneCanvas, path}) => {
     return <div className="App">
         <TitleBar/>
-        <Signal/>
+        <Signal path={path}/>
         <SwitchWindow change={showMicrophonesAndSources} icon={Network} right position={0} total={microphoneCanvas ? 2 : 1}/>
         {microphoneCanvas ? <SwitchWindow change={() => store.dispatch(showMicrophoneCanvas())} icon={Mic} microphone right position={1} total={2}/> : ""}
         <Bank removeSignal={signalsController.removeSignalFromBank} signals={signalsController.getBankSignals()}/>

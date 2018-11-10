@@ -33,11 +33,18 @@ export function showMicrophoneCanvas(signal){
 }
 
 
-export function showSignal(){
+export function showSignal(path){
+    if(path){
+        console.log('path', path)
+        path = path[0].replace(/\\/g, '/');
+        console.log('path', path.replace(/\\/g, '/'))
+    }
+
     store.dispatch(closeBank());
     return{
         type: AVAILABLE_TYPES.CHANGE_PAGE,
         page: AVAILABLE_PAGES.SIGNAL,
+        path
     }
 }
 

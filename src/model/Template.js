@@ -5,7 +5,7 @@ import {showLoading} from "../controller/actions/PageActions";
 import {showMicrophoneCanvas} from "../controller/actions/PageActions";
 import {MaxNumberOfPoints} from "../components/Environment/Options";
 import {refreshApp} from "../controller/actions/UXActions";
-console.log(window.require('electron').remote)
+//console.log(window.require('electron').remote)
 const backend = window.require('electron').remote.getGlobal('shared').backend;
 
 export default class Template{
@@ -102,7 +102,7 @@ export default class Template{
                 relationships: []
             };
 
-            console.log('Sources', sources);
+            //console.log('Sources', sources);
 
 
             microphones.map(microphone => {
@@ -128,7 +128,7 @@ export default class Template{
 
             backend.getMicrophonesFromModel(['save', JSON.stringify(ret)])
                 .then((data) => {
-                    console.log("Data boi", data);
+                    //console.log("Data boi", data);
                 })
                 .then(() => {
                     let canvas = document.getElementById('Canvas').getBoundingClientRect();

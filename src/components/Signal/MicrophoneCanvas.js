@@ -10,7 +10,7 @@ export default class MicrophoneCanvas extends React.Component{
         super(props);
 
         this.state = microphoneSignalsController.getSignals();
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     render(){
