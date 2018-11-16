@@ -6,6 +6,7 @@ export const AVAILABLE_PAGES = {
     SIGNAL: "SIGNAL",
     LOADING: "LOADING",
     NEURAL: "NEURAL",
+    WELCOME: "WELCOME"
 };
 
 export const AVAILABLE_TYPES = {
@@ -15,10 +16,12 @@ export const AVAILABLE_TYPES = {
 
 export default function PageReducer(state = {
     type: AVAILABLE_TYPES.CHANGE_PAGE,
-    page: AVAILABLE_PAGES.ENVIRONMENT_CANVAS
+    page: AVAILABLE_PAGES.WELCOME
 }, action) {
     if (action.type === AVAILABLE_TYPES.CHANGE_PAGE) {
         switch (action.page) {
+            case AVAILABLE_PAGES.WELCOME:
+                return action;
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};
             case AVAILABLE_PAGES.SIGNAL:

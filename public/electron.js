@@ -66,7 +66,7 @@ let listDirectory = (path) => new Promise((success, failure) => {
 });
 
 let getMicrophonesFromModel = (arg) => new Promise((success, failure) => {
-    //console.log("Fetching microphones ...");
+    console.log("Fetching microphones ...", arg);
     const spawn = require("child_process").spawn;
     arg.unshift('./python/main.py');
     const pythonProcess = spawn('python', arg);

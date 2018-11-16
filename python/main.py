@@ -4,6 +4,7 @@ from microphone import getxn
 import json
 import numpy as np
 from scipy.io import wavfile
+import os
 import time
 
 
@@ -20,8 +21,9 @@ elif sys.argv[1] == "microphones":
     print(json.dumps(getxn(sys.argv[3], n=int(sys.argv[2])), cls=NumpyEncoder))
 elif sys.argv[1] == "save":
     millis = int(round(time.time() * 1000))
-    wavfile.write("datasets/"+str(millis)+".wav", 44100, getxn(sys.argv[2], save=True))
-    with open('datasets/'+str(millis)+'.json', 'w') as outfile:
+    os.chdir('C:')
+    wavfile.write(os.path.join(sys.argv[3], str(millis)+".wav"), 44100, getxn(sys.argv[2], save=True))
+    with open(os.path.join(sys.argv[3], str(millis)+".json"), 'w') as outfile:
         json.dump(sys.argv[2], outfile, cls=NumpyEncoder)
 
     print('Successfully saved file : ', str(millis)+".json")

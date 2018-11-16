@@ -19,7 +19,7 @@ def normalize(X):
 
 
 def get_entire_signal(path, offset):
-    (fs, son) = wavfile.read(dirpath+"\\python\\"+path.replace('/', '\\'))
+    (fs, son) = wavfile.read(path)
     sig = np.append(np.zeros(offset), son[:, 0])
     sig = sig.astype(int)
     return sig
@@ -42,6 +42,7 @@ def getxn(model, n=10000, save=False):
     maxlength = -1
 
     for source in model["sources"]:
+        print(source['path'])
         if source['path'] == "basic":
             length = len(get_basic_signals(source['name'], offset=int(source['t0'])*44100))
         else:

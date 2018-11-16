@@ -30,6 +30,7 @@ import {toggleBank} from "./controller/actions/UXActions";
 import MicrophoneCanvas from "./components/Signal/MicrophoneCanvas";
 import MicrophoneSignalsController from "./controller/MicrophoneSignalsController";
 import Neural from "./components/Neural/Neural";
+import Welcome from "./components/Welcome/Welcome";
 
 const win = window.require('electron').remote.getCurrentWindow();
 export const pointsController = new PointsController();
@@ -57,6 +58,8 @@ class App extends Component {
 
 	render() {
 		switch(this.props.page.page){
+            case AVAILABLE_PAGES.WELCOME:
+                return <Welcome/>;
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return microphonesAndSources({showSignals: this.showSignals, microphoneCanvas: this.props.page.microphoneDisplayAvailable, showNeural: this.showNeural});
             case AVAILABLE_PAGES.SIGNAL_CANVAS:

@@ -89,7 +89,7 @@ export default class Template{
         backend.getMicrophonesFromModel(['microphones', MaxNumberOfPoints, JSON.stringify(ret)]).then((data) => {console.log(data); data = JSON.parse(data); console.log('Python script execution time : ', Math.floor(data.time*1000)+ "ms."); store.dispatch(showMicrophoneCanvas(data))});
     }
 
-    static fetchAndSave(numberOfRandomGenerations = 10, medium = "air", title = "delays"){
+    static fetchAndSave(path="D:/", numberOfRandomGenerations = 10, medium = "air", title = "delays"){
         if(numberOfRandomGenerations > 0){
             let sos = 34000;
 
@@ -101,9 +101,6 @@ export default class Template{
                 sources,
                 relationships: []
             };
-
-            //console.log('Sources', sources);
-
 
             microphones.map(microphone => {
                 let relationship = [];
@@ -126,15 +123,15 @@ export default class Template{
                 version: 1.0
             };
 
-            backend.getMicrophonesFromModel(['save', JSON.stringify(ret)])
+            backend.getMicrophonesFromModel(['save', JSON.stringify(ret), path])
                 .then((data) => {
-                    //console.log("Data boi", data);
+                    console.log("Data boi", data);
                 })
                 .then(() => {
                     let canvas = document.getElementById('Canvas').getBoundingClientRect();
                     pointsController.randomizePositions(20, 20, canvas.width-20, canvas.height-20);
                     store.dispatch(refreshApp());
-                    this.fetchAndSave(numberOfRandomGenerations=numberOfRandomGenerations-1);
+                    this.fetchAndSave(path, numberOfRandomGenerations=numberOfRandomGenerations-1);
                 });
         }
     }

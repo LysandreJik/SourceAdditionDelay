@@ -99,7 +99,7 @@ export default class Footer extends React.Component{
                 </button>
                 <button
                     className="Footer__button "
-                    onClick={() => {Template.fetchAndSave()}}
+                    onClick={() => {Template.fetchAndSave(window.require('electron').remote.require('electron').dialog.showOpenDialog({properties: ['openDirectory']}))}}
                 >
                     Generate 10
                 </button>
