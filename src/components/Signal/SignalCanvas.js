@@ -30,6 +30,7 @@ export default class SignalCanvas extends React.Component {
 
     fetchData(signal) {
         remote.getGlobal('shared').backend.getData(['signal', signal]).then(data => {
+            console.log(data)
             data = JSON.parse(data);
             signalsController.addSignal({
                 signal,

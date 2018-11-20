@@ -197,7 +197,7 @@ export default class Template{
                     console.log("Data boi", data);
                 })
                 .then(() => {
-                    this.fetchAndSave(path, numberOfRandomGenerations=numberOfRandomGenerations-1, name);
+                    this.fetchAndSave(path, numberOfRandomGenerations=numberOfRandomGenerations-1, name, audio, T0, base, medium, title);
                 });
         }
     }
