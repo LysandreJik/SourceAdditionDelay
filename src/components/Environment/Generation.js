@@ -43,7 +43,7 @@ export default class Generation extends React.Component{
                 <button onClick={() => {
                     store.dispatch(
                         showEnvironmentCanvas(
-                            () => this.props.callback(this.val, this.state.selected === "yes")
+                            () => this.props.callback(this.val, [this.minAudio, this.maxAudio], [this.minT0, this.maxT0], this.state.selected === "yes")
                         )
                     )
                 }}>Generate</button>

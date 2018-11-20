@@ -90,7 +90,7 @@ export default class Template{
         backend.getMicrophonesFromModel(['microphones', MaxNumberOfPoints, JSON.stringify(ret)]).then((data) => {console.log(data); data = JSON.parse(data); console.log('Python script execution time : ', Math.floor(data.time*1000)+ "ms."); store.dispatch(showMicrophoneCanvas(data))});
     }
 
-    static createEnvironment(base){
+    static createEnvironment(base, audio, T0){
         //console.log("Creating sources");
         let sources  = [];
         let bankSignals = signalsController.getBankSignals();
@@ -99,8 +99,21 @@ export default class Template{
             sources.push(bankSignals[i])
         }
 
+        if(T0[0] < 0){
+            T0[0] = 0
+        }
+
+        if(T0[1] < T0[0]){
+            T0[0] = 5;
+            T0[1] = 30;
+        }
+
         //console.log(sources);
-        let sourcesAmount = 2 + (Math.round(Math.random() * (sources.length - 2)));
+        let sourcesAmount = audio[0] + (Math.random()*(audio[1] - audio[0]));
+
+        if(sourcesAmount < 2 || sourcesAmount > sources.length){
+            sourcesAmount = 2 + (Math.round(Math.random() * (sources.length - 2)));
+        }
         //console.log(sources);
         //console.log("Sources amount", sourcesAmount);
 
@@ -126,7 +139,7 @@ export default class Template{
         for(let i = 0; i < sourcesAmount; i++){
             let source = envSources[i];
             pointsController.setSources(source[0]);
-            pointsController.addPoint(0, 0, pointsController.getMethod(), Math.random()*i*5);
+            pointsController.addPoint(0, 0, pointsController.getMethod(), T0[0] + (Math.random() * (T0[1] - T0[0])));
         }
 
         //console.log(pointsController.getSources());
@@ -136,11 +149,11 @@ export default class Template{
         store.dispatch(refreshApp());
     }
 
-    static fetchAndSave(path="D:/", numberOfRandomGenerations = 10, name, base=false, medium = "air", title = "delays"){
+    static fetchAndSave(path="D:/", numberOfRandomGenerations = 10, name, audio, T0, base=false, medium = "air", title = "delays"){
         //console.log('Fetching and saving', numberOfRandomGenerations);
         if(numberOfRandomGenerations > 0){
 
-            Template.createEnvironment(base);
+            Template.createEnvironment(base, audio, T0);
 
             let sos = 34000;
 

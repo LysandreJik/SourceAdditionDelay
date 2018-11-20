@@ -100,7 +100,7 @@ export default class Footer extends React.Component{
                 </button>
                 <button
                     className="Footer__button "
-                    onClick={() => store.dispatch(showGeneration((quantity, base) => {Template.fetchAndSave(window.require('electron').remote.require('electron').dialog.showOpenDialog({properties: ['openDirectory']}), quantity, this.props.name, base)}))}
+                    onClick={() => store.dispatch(showGeneration((quantity, audio, T0, base) => {Template.fetchAndSave(window.require('electron').remote.require('electron').dialog.showOpenDialog({properties: ['openDirectory']}), quantity, this.props.name, audio, T0,  base)}))}
                 >
                     Generate n
                 </button>
