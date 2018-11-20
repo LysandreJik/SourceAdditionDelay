@@ -22,6 +22,20 @@ export default class Generation extends React.Component{
                     <span>Generate</span><input onChange={() => this.val = parseInt(document.getElementById("amount").value)} id={"amount"}/><span>different audio clips</span>
                 </div>
                 <div className="Generation__div">
+                    <span>From between</span>
+                    <input onChange={() => this.minAudio = parseInt(document.getElementById("minAudio").value)} id={"minAudio"}/>
+                    and
+                    <input onChange={() => this.maxAudio = parseInt(document.getElementById("maxAudio").value)} id={"maxAudio"}/>
+                    <span>audio clips</span>
+                </div>
+                <div className="Generation__div">
+                    <span>With T0 = [</span>
+                    <input onChange={() => this.minT0 = parseInt(document.getElementById("minT0").value)} id={"minT0"}/>
+                    ;
+                    <input onChange={() => this.maxT0 = parseInt(document.getElementById("maxT0").value)} id={"maxT0"}/>
+                    <span>]</span>
+                </div>
+                <div className="Generation__div">
                     <span>Use base signals</span>
                     <button onClick={() => this.setState({selected: "yes"})} className={"Generation__button" + (this.state.selected === "yes" ? " Generation__button--selected" : "")}>Yes</button>
                     <button onClick={() => this.setState({selected: "no"})} className={"Generation__button" + (this.state.selected === "no" ? " Generation__button--selected" : "")}>No</button>

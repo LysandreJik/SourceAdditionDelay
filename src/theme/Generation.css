@@ -50,6 +50,7 @@
     border-bottom: 1px solid #b9c4c9;
     transition: all 0.2s;
     outline: none;
+    cursor: pointer;
 }
 
 .Generation__button:hover{
@@ -70,6 +71,7 @@
     bottom: 20px;
     position: absolute;
     transition: 0.2s all ease;
+    cursor: pointer;
 }
 
 .Generation > button:hover{
