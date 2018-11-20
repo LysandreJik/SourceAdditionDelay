@@ -15,12 +15,7 @@ export default class Signal extends React.Component{
 
     constructor(props){
         super(props);
-
-
-
         this.state = {currentDisplay: AVAILABLE_DISPLAYS.FILE_SELECTION, path: this.props.path, loading: -1};
-
-        //console.log(this.props.path);
         this.listDirectory(this.props.path);
         this.selectDirectory = this.selectDirectory.bind(this);
     }

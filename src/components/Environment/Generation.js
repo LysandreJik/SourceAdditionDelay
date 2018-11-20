@@ -1,7 +1,8 @@
 import '../../theme/Generation.css'
 import React from 'react'
 import store from '../../controller/store/Store'
-import {showEnvironmentCanvas} from "../../controller/actions/PageActions";
+import {showEnvironmentCanvas, showSignal} from "../../controller/actions/PageActions";
+import Return from "../../icons/ionicons_back.svg";
 
 export default class Generation extends React.Component{
 
@@ -14,6 +15,9 @@ export default class Generation extends React.Component{
     render(){
         return(
             <div className="Generation">
+                <img onClick={() => {
+                    store.dispatch(showEnvironmentCanvas())
+                }} className="Generation__return" src={Return} width={30} height={30}/>
                 <div className="Generation__div">
                     <span>Generate</span><input onChange={() => this.val = parseInt(document.getElementById("amount").value)} id={"amount"}/><span>different audio clips</span>
                 </div>

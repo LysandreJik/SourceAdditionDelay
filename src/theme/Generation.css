@@ -13,6 +13,18 @@
     flex-direction: column;
 }
 
+.Generation__return{
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.Generation__return:hover{
+    left: 20px;
+}
+
 .Generation__div > input{
     background-color: transparent;
     font-family: "Montserrat Light";
