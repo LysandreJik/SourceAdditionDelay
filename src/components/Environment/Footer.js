@@ -5,6 +5,7 @@ import Template from "../../model/Template";
 import {refreshApp} from "../../controller/actions/UXActions";
 import store from '../../controller/store/Store'
 import {signalsController} from "../Signal/SignalCanvas";
+import {showGeneration} from "../../controller/actions/PageActions";
 
 function gaussianRand() {
     let rand = 0;
@@ -99,9 +100,9 @@ export default class Footer extends React.Component{
                 </button>
                 <button
                     className="Footer__button "
-                    onClick={() => {Template.fetchAndSave(window.require('electron').remote.require('electron').dialog.showOpenDialog({properties: ['openDirectory']}))}}
+                    onClick={() => store.dispatch(showGeneration((quantity, base) => {Template.fetchAndSave(window.require('electron').remote.require('electron').dialog.showOpenDialog({properties: ['openDirectory']}), quantity, this.props.name, base)}))}
                 >
-                    Generate 10
+                    Generate n
                 </button>
             </div>
         )

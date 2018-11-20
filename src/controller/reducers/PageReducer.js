@@ -6,7 +6,8 @@ export const AVAILABLE_PAGES = {
     SIGNAL: "SIGNAL",
     LOADING: "LOADING",
     NEURAL: "NEURAL",
-    WELCOME: "WELCOME"
+    WELCOME: "WELCOME",
+    GENERATION: "GENERATION"
 };
 
 export const AVAILABLE_TYPES = {
@@ -21,6 +22,8 @@ export default function PageReducer(state = {
     if (action.type === AVAILABLE_TYPES.CHANGE_PAGE) {
         switch (action.page) {
             case AVAILABLE_PAGES.WELCOME:
+                return action;
+            case AVAILABLE_PAGES.GENERATION:
                 return action;
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
                 return {...action, microphoneDisplayAvailable: state.microphoneDisplayAvailable};

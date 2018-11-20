@@ -1,0 +1,65 @@
+
+.Generation{
+    color: #b9c4c9;
+    font-family: "Montserrat Light";
+    font-size: 200%;
+    text-align: center;
+    display: flex;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 20px);
+    flex-direction: column;
+}
+
+.Generation__div > input{
+    background-color: transparent;
+    font-family: "Montserrat Light";
+    font-size: 100%;
+    color: #b9c4c9;
+    text-align: center;
+    border: none;
+    border-bottom: 1px dashed #b9c4c9;
+    margin: 0 40px;
+    width: 150px;
+}
+
+.Generation__div{
+    margin: 40px 0;
+}
+
+.Generation__button{
+    background-color: #32384d;
+    color: #b9c4c9;
+    font-size: 100%;
+    margin:  0 20px;
+    border: none;
+    border-bottom: 1px solid #b9c4c9;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.Generation__button:hover{
+    border-bottom: 1px solid #217ca3;
+    color: #217ca3;
+}
+
+.Generation__button--selected{
+    border-bottom: 1px solid #217ca3;
+    color: #217ca3;
+}
+
+.Generation > button{
+    background-color: #b9c4c9;
+    color: #32384d;
+    border: 1px solid #b9c4c9;
+    padding: 5px;
+    bottom: 20px;
+    position: absolute;
+    transition: 0.2s all ease;
+}
+
+.Generation > button:hover{
+    box-shadow: 10px 10px 0px 0px #217ca3;
+}

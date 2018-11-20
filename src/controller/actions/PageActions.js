@@ -3,11 +3,12 @@ import store from '../store/Store'
 import {closeBank} from "./UXActions";
 import {microphoneSignalsController} from "../../App";
 
-export function showEnvironmentCanvas(){
+export function showEnvironmentCanvas(callback){
     store.dispatch(closeBank());
     return{
         type: AVAILABLE_TYPES.CHANGE_PAGE,
-        page: AVAILABLE_PAGES.ENVIRONMENT_CANVAS
+        page: AVAILABLE_PAGES.ENVIRONMENT_CANVAS,
+        callback
     }
 }
 
@@ -35,9 +36,9 @@ export function showMicrophoneCanvas(signal){
 
 export function showSignal(path){
     if(path){
-        console.log('path', path)
+        //console.log('path', path)
         path = path[0].replace(/\\/g, '/');
-        console.log('path', path.replace(/\\/g, '/'))
+        //console.log('path', path.replace(/\\/g, '/'))
     }
 
     store.dispatch(closeBank());
@@ -66,4 +67,10 @@ export function showLoading(callback){
     }
 }
 
-
+export function showGeneration(callback){
+    return{
+        type: AVAILABLE_TYPES.CHANGE_PAGE,
+        page: AVAILABLE_PAGES.GENERATION,
+        callback
+    }
+}

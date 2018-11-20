@@ -20,13 +20,13 @@ export default class Signal extends React.Component{
 
         this.state = {currentDisplay: AVAILABLE_DISPLAYS.FILE_SELECTION, path: this.props.path, loading: -1};
 
-        console.log(this.props.path);
+        //console.log(this.props.path);
         this.listDirectory(this.props.path);
         this.selectDirectory = this.selectDirectory.bind(this);
     }
 
     async listDirectory(path){
-        console.log('Listing directory with path', path);
+        //console.log('Listing directory with path', path);
         if(path){
             await backend.listDirectory(path).then(data => this.setState({dir: JSON.parse(data)}));
         }else{
@@ -35,7 +35,7 @@ export default class Signal extends React.Component{
     }
 
     selectDirectory(directory, key){
-        console.log('Selecting directory', directory, key, "with current path", this.state.path);
+        //console.log('Selecting directory', directory, key, "with current path", this.state.path);
         if(directory === "return"){
             if(this.state.split){
                 this.listDirectory(this.state.path.split('/').slice(0, -1).join('/')).then(() => this.setState({path: this.state.path.split('/').slice(0, -1).join('/'), loading: -1}));
@@ -45,7 +45,7 @@ export default class Signal extends React.Component{
         }else {
             if(directory.directory){
                 this.setState({loading: key});
-                console.log('Lissting directory with path', this.state.path , directory.item);
+                //console.log('Lissting directory with path', this.state.path , directory.item);
                 this.listDirectory(this.state.path+"/"+directory.item).then(() => this.setState({path: this.state.path+"/"+directory.item, loading: -1})).then(() => console.log(this.state.dir));
             }else{
                 store.dispatch(showLoading(() => {store.dispatch(showSignalCanvas(this.state.path+"/"+directory.item))}));

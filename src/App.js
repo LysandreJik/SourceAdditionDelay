@@ -31,6 +31,7 @@ import MicrophoneCanvas from "./components/Signal/MicrophoneCanvas";
 import MicrophoneSignalsController from "./controller/MicrophoneSignalsController";
 import Neural from "./components/Neural/Neural";
 import Welcome from "./components/Welcome/Welcome";
+import Generation from "./components/Environment/Generation";
 
 const win = window.require('electron').remote.getCurrentWindow();
 export const pointsController = new PointsController();
@@ -41,6 +42,7 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {};
+        this.setName = this.setName.bind(this);
         window.addEventListener('resize', () => {this.setState({update: !this.state.update})});
     }
 
@@ -56,12 +58,19 @@ class App extends Component {
         store.dispatch(showNeural())
     }
 
+    setName(name){
+        //console.log('Set name to', name);
+        this.name = name
+    }
+
 	render() {
 		switch(this.props.page.page){
             case AVAILABLE_PAGES.WELCOME:
-                return <Welcome/>;
+                return welcome(this.setName);
+            case AVAILABLE_PAGES.GENERATION:
+                return generation(this.props.page.callback);
             case AVAILABLE_PAGES.ENVIRONMENT_CANVAS:
-                return microphonesAndSources({showSignals: this.showSignals, microphoneCanvas: this.props.page.microphoneDisplayAvailable, showNeural: this.showNeural});
+                return microphonesAndSources({showSignals: this.showSignals, microphoneCanvas: this.props.page.microphoneDisplayAvailable, showNeural: this.showNeural, name: this.name, callback: this.props.page.callback});
             case AVAILABLE_PAGES.SIGNAL_CANVAS:
                 return signalCanvas({showMicrophonesAndSources: this.showMicrophonesAndSources, signal: this.props.page.signal, microphoneCanvas: this.props.page.microphoneDisplayAvailable});
             case AVAILABLE_PAGES.SIGNAL:
@@ -94,12 +103,26 @@ class TitleBar extends React.Component{
     }
 }
 
-const microphonesAndSources = ({showSignals, microphoneCanvas, showNeural}) => {
+const welcome = (setName) => {
+    return <div className="App">
+        <TitleBar/>
+        <Welcome setName={setName}/>
+    </div>
+};
+
+const generation = (callback) => {
+    return <div className="App">
+        <TitleBar/>
+        <Generation callback={callback}/>
+    </div>
+};
+
+const microphonesAndSources = ({showSignals, microphoneCanvas, showNeural, name, callback}) => {
     return <div className="App">
         <TitleBar/>
         <Options/>
-        <Canvas/>
-        <Footer/>
+        <Canvas callback={callback}/>
+        <Footer name={name}/>
         <SwitchWindow change={showNeural} icon={Carrot} right position={0} total={microphoneCanvas ? 3 : 2}/>
         <SwitchWindow change={showSignals} icon={Pulse} right position={1} total={microphoneCanvas ? 3 : 2}/>
         {microphoneCanvas ? <SwitchWindow change={() => store.dispatch(showMicrophoneCanvas())} icon={Mic} microphone right position={2} total={3}/> : ""}

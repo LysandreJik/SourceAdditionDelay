@@ -35,7 +35,8 @@ export default class SignalCanvas extends React.Component {
                 signal,
                 name: signal.split('/')[signal.split('/').length - 1],
                 data: data.signal,
-                metadata: data.metadata
+                metadata: data.metadata,
+                path: data.path
             });
             this.setState({data: signalsController.getSignals()})
         })

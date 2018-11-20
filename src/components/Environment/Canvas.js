@@ -54,6 +54,10 @@ export default class Canvas extends React.Component {
             this.draw = SVG('drawing').size(2500, 2500);
 
         this.setState({points: pointsController.getPoints()});
+
+        if(this.props.callback){
+            this.props.callback();
+        }
     }
 
     componentDidUpdate() {
@@ -214,7 +218,7 @@ class Point extends React.Component {
     getClass() {
         if (this.props.object.getType() === "microphone") {
             return "Point Point--microphone" + (this.state.closed ? "" : " Point--large")
-        } else if (this.props.object.getType().path === "basic") {
+        } else if (this.props.object.getType() && this.props.object.getType().path === "basic") {
             return "Point Point--source" + (this.state.closed ? "" : " Point--large")
         } else {
             return "Point Point--voice" + (this.state.closed ? "" : " Point--large")
@@ -222,9 +226,10 @@ class Point extends React.Component {
     }
 
     getSmallText() {
+        //console.log(this.props.object);
         if (this.props.object.getType() === "microphone") {
             return "M"
-        } else if (this.props.object.getType().path === "basic") {
+        } else if (this.props.object.getType() && this.props.object.getType().path === "basic") {
             return "S"
         } else {
             return "S+"

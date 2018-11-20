@@ -1,5 +1,81 @@
 
 
 .Welcome{
-    color: red;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.Welcome__Hi{
+    font-family: 'Montserrat Light';
+    color: #b9c4c9;
+    font-size: 1200%;
+    opacity: 0;
+    animation: fadeInLeft 1.5s ease forwards;
+    position: relative;
+}
+
+.Welcome__Name {
+    font-family: 'Montserrat Light';
+    color: #b9c4c9;
+    font-size: 600%;
+    animation: fadeInLeft 1s ease forwards;
+    animation-delay: 1.5s;
+    opacity: 0;
+    position: relative;
+}
+
+.Welcome__Input{
+    font-size: 400%;
+    width: 80%;
+    left: 10%;
+    position: relative;
+    margin: 120px 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px dashed #b9c4c9;
+    animation: breathing 3s ease infinite;
+    transition: 0.3s all;
+    color: #b9c4c9;
+    font-family: "Montserrat Light Italic";
+    text-align: center;
+}
+
+.Welcome__Input:focus{
+    animation: none;
+}
+
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        left: -500px;
+    }
+
+    to{
+        opacity: 1;
+        left: 10%;
+    }
+}
+
+@keyframes breathing{
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.03);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+
+    80% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

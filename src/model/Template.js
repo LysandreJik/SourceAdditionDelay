@@ -5,6 +5,7 @@ import {showLoading} from "../controller/actions/PageActions";
 import {showMicrophoneCanvas} from "../controller/actions/PageActions";
 import {MaxNumberOfPoints} from "../components/Environment/Options";
 import {refreshApp} from "../controller/actions/UXActions";
+import {signalsController} from "../components/Signal/SignalCanvas";
 //console.log(window.require('electron').remote)
 const backend = window.require('electron').remote.getGlobal('shared').backend;
 
@@ -89,12 +90,65 @@ export default class Template{
         backend.getMicrophonesFromModel(['microphones', MaxNumberOfPoints, JSON.stringify(ret)]).then((data) => {console.log(data); data = JSON.parse(data); console.log('Python script execution time : ', Math.floor(data.time*1000)+ "ms."); store.dispatch(showMicrophoneCanvas(data))});
     }
 
-    static fetchAndSave(path="D:/", numberOfRandomGenerations = 10, medium = "air", title = "delays"){
+    static createEnvironment(base){
+        //console.log("Creating sources");
+        let sources  = [];
+        let bankSignals = signalsController.getBankSignals();
+
+        for(let i = 0; i < bankSignals.length; i++){
+            sources.push(bankSignals[i])
+        }
+
+        //console.log(sources);
+        let sourcesAmount = 2 + (Math.round(Math.random() * (sources.length - 2)));
+        //console.log(sources);
+        //console.log("Sources amount", sourcesAmount);
+
+        let envSources = [];
+
+        for(let i = 0; i < sourcesAmount; i++){
+            let index = Math.random() * (sources.length - 1);
+            let source = sources.splice(index, 1);
+            envSources.push(source)
+        }
+
+        let microphoneAmount = 2 + (Math.round(Math.random() * (sources.length + 1)));
+        //console.log("Microphones amount", microphoneAmount)
+
+        pointsController.clearPoints();
+        pointsController.setMicrophones();
+        for(let i = 0; i < microphoneAmount; i++){
+            pointsController.addPoint(0, 0, pointsController.getMethod(), Math.random()*i*5);
+        }
+
+        //console.log(pointsController.getMicrophones());
+
+        for(let i = 0; i < sourcesAmount; i++){
+            let source = envSources[i];
+            pointsController.setSources(source[0]);
+            pointsController.addPoint(0, 0, pointsController.getMethod(), Math.random()*i*5);
+        }
+
+        //console.log(pointsController.getSources());
+
+        let canvas = document.getElementById('Canvas').getBoundingClientRect();
+        pointsController.randomizePositions(20, 20, canvas.width-20, canvas.height-20);
+        store.dispatch(refreshApp());
+    }
+
+    static fetchAndSave(path="D:/", numberOfRandomGenerations = 10, name, base=false, medium = "air", title = "delays"){
+        //console.log('Fetching and saving', numberOfRandomGenerations);
         if(numberOfRandomGenerations > 0){
+
+            Template.createEnvironment(base);
+
             let sos = 34000;
 
             let microphones = pointsController.getMicrophones().map((point , index) =>  {return {x: point.getX(), y: point.getY(), index}});
-            let sources = pointsController.getSources().map((point , index) =>  {return {path: point.getType().path, name: point.getType().name, t0: point.getT0(), t: point.getType().metadata.n/point.getType().metadata.fs, x: point.getX(), y: point.getY(), index}});
+
+            //console.log(pointsController.getSources());
+
+            let sources = pointsController.getSources().map((point , index) =>  {return {path: point.getType().signal, name: point.getType().name, t0: point.getT0(), t: point.getType().metadata.n/point.getType().metadata.fs, x: point.getX(), y: point.getY(), index}});
 
             let ret = {
                 microphones,
@@ -123,15 +177,14 @@ export default class Template{
                 version: 1.0
             };
 
-            backend.getMicrophonesFromModel(['save', JSON.stringify(ret), path])
+            //console.log("RET", ret)
+
+            backend.getMicrophonesFromModel(['save', JSON.stringify(ret), path, name])
                 .then((data) => {
                     console.log("Data boi", data);
                 })
                 .then(() => {
-                    let canvas = document.getElementById('Canvas').getBoundingClientRect();
-                    pointsController.randomizePositions(20, 20, canvas.width-20, canvas.height-20);
-                    store.dispatch(refreshApp());
-                    this.fetchAndSave(path, numberOfRandomGenerations=numberOfRandomGenerations-1);
+                    this.fetchAndSave(path, numberOfRandomGenerations=numberOfRandomGenerations-1, name);
                 });
         }
     }
