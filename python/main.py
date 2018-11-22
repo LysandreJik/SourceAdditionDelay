@@ -22,7 +22,7 @@ elif sys.argv[1] == "microphones":
 elif sys.argv[1] == "save":
     millis = int(round(time.time() * 1000))
     os.chdir('C:')
-    wavfile.write(os.path.join(sys.argv[3], sys.argv[4] + '_' + str(millis) + ".wav"), 44100, getxn(sys.argv[2], save=True))
+    wavfile.write(os.path.join(sys.argv[3], sys.argv[4] + '_' + str(millis) + ".wav"), 48000, getxn(sys.argv[2], save=True))
     with open(os.path.join(sys.argv[3], sys.argv[4] + '_' + str(millis) + ".json"), 'w') as outfile:
         print(sys.argv[2])
         json.dump(json.loads(sys.argv[2]), outfile)

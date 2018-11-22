@@ -20,7 +20,7 @@ def normalize(X):
 
 def get_entire_signal(path, offset):
     (fs, son) = wavfile.read(path)
-    sig = np.append(np.zeros(offset), son[:, 0])
+    sig = np.append(np.zeros(offset), son[:])
     sig = sig.astype(int)
     return sig
 
